@@ -471,5 +471,10 @@ function toggle(el) {
   el.classList.toggle('open');
 }
 </script>
+<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/Japan/sw.js');
+}
+</script>
 </body>
 </html>

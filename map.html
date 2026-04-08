@@ -281,5 +281,10 @@ window.onload = function() {
   showCity('tokyo', document.querySelector('.tab'));
 };
 </script>
+<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/Japan/sw.js');
+}
+</script>
 </body>
 </html>
