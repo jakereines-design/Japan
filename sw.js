@@ -1,5 +1,5 @@
-const CACHE = 'japan-trip-v1';
-const TILE_CACHE = 'japan-tiles-v1';
+const CACHE = 'japan-trip-v2';
+const TILE_CACHE = 'japan-tiles-v2';
 
 const STATIC = [
   './',
