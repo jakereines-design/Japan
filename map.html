@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Japan Trip · Map</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+html, body { height: 100%; overflow: hidden; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif; background: #f2f2f7; }
+
+#map { position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 0; }
+
+.leaflet-tile-pane {
+  filter: saturate(0.22) sepia(0.20) brightness(1.08) contrast(0.87) hue-rotate(10deg);
+}
+
+#topbar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  padding: max(env(safe-area-inset-top), 14px) 12px 0;
+}
+.title-pill {
+  background: rgba(255,255,255,0.88);
+  backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+  border-radius: 14px; padding: 10px 14px;
+  display: flex; align-items: center; justify-content: space-between;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.10);
+  margin-bottom: 8px;
+}
+.title-pill h1 { font-size: 15px; font-weight: 600; color: #1c1c1e; }
+.title-pill span { font-size: 12px; color: #8e8e93; }
+
+.tabs-row { display: flex; gap: 7px; overflow-x: auto; padding-bottom: 2px; scrollbar-width: none; }
+.tabs-row::-webkit-scrollbar { display: none; }
+.tab {
+  background: rgba(255,255,255,0.88);
+  backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+  border-radius: 20px; padding: 7px 18px;
+  font-size: 13px; font-weight: 500; color: #1c1c1e;
+  white-space: nowrap; cursor: pointer; flex-shrink: 0;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.06), 0 2px 8px rgba(0,0,0,0.08);
+  border: none; transition: background 0.18s, color 0.18s;
+}
+.tab.active { background: #007aff; color: white; box-shadow: 0 2px 10px rgba(0,122,255,0.35); }
+
+#legend {
+  position: fixed; top: 118px; right: 12px; z-index: 100;
+  background: rgba(255,255,255,0.88);
+  backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+  border-radius: 12px; padding: 10px 12px;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.06), 0 4px 12px rgba(0,0,0,0.10);
+}
+.leg { display: flex; align-items: center; gap: 7px; font-size: 12px; color: #3a3a3c; font-weight: 500; margin-bottom: 5px; }
+.leg:last-child { margin-bottom: 0; }
+.leg-dot { width: 11px; height: 11px; border-radius: 50%; border: 2px solid white; box-shadow: 0 1px 4px rgba(0,0,0,0.18); flex-shrink: 0; }
+
+#hint {
+  position: fixed;
+  bottom: max(env(safe-area-inset-bottom, 0px), 20px);
+  left: 50%; transform: translateX(-50%); z-index: 100;
+  background: rgba(255,255,255,0.88);
+  backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+  border-radius: 20px; padding: 9px 20px;
+  font-size: 13px; color: #8e8e93; font-weight: 500;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.06), 0 4px 12px rgba(0,0,0,0.10);
+  white-space: nowrap; transition: opacity 0.25s, transform 0.25s;
+}
+#hint.hidden { opacity: 0; pointer-events: none; transform: translateX(-50%) translateY(10px); }
+
+#sheet {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 200;
+  transform: translateY(110%);
+  transition: transform 0.38s cubic-bezier(0.32, 0.72, 0, 1);
+  padding: 0 10px max(env(safe-area-inset-bottom, 0px), 14px);
+}
+#sheet.open { transform: translateY(0); }
+
+.sheet-inner {
+  background: rgba(255,255,255,0.98);
+  backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+  border-radius: 20px; padding: 0 16px 16px;
+  box-shadow: 0 -1px 0 rgba(0,0,0,0.05), 0 -8px 32px rgba(0,0,0,0.10);
+}
+.handle-wrap { display: flex; justify-content: center; padding: 10px 0 12px; }
+.handle { width: 36px; height: 4px; background: #d1d1d6; border-radius: 2px; }
+
+.s-cat {
+  display: inline-block; font-size: 10px; font-weight: 700;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  padding: 3px 8px; border-radius: 6px; margin-bottom: 5px;
+}
+.c-hotel { background: #e1effe; color: #1a56c4; }
+.c-food  { background: #fdecea; color: #c0392b; }
+.c-act   { background: #e3fae7; color: #1a8a4a; }
+
+.s-name   { font-size: 20px; font-weight: 700; color: #1c1c1e; line-height: 1.2; margin-bottom: 3px; }
+.s-date   { font-size: 13px; font-weight: 600; color: #007aff; margin-bottom: 6px; }
+.s-detail { font-size: 14px; color: #3a3a3c; line-height: 1.45; }
+.s-conf   { font-size: 12px; color: #34c759; font-family: 'SF Mono', Menlo, monospace; margin-top: 5px; }
+
+.s-actions { display: flex; gap: 8px; margin-top: 14px; }
+.s-btn {
+  flex: 1; padding: 11px 8px; border-radius: 13px;
+  font-size: 15px; font-weight: 600; text-align: center;
+  cursor: pointer; border: none; text-decoration: none; display: block;
+  transition: opacity 0.15s;
+}
+.s-btn:active { opacity: 0.75; }
+.btn-primary   { background: #007aff; color: white; }
+.btn-secondary { background: #f2f2f7; color: #007aff; }
+
+.leaflet-control-zoom { border: none !important; box-shadow: 0 1px 0 rgba(0,0,0,0.06), 0 4px 12px rgba(0,0,0,0.10) !important; border-radius: 12px !important; overflow: hidden; margin-right: 12px !important; margin-bottom: 90px !important; }
+.leaflet-control-zoom a { background: rgba(255,255,255,0.92) !important; color: #007aff !important; border: none !important; border-bottom: 0.5px solid rgba(0,0,0,0.08) !important; font-size: 20px !important; font-weight: 300 !important; width: 38px !important; height: 38px !important; line-height: 38px !important; }
+.leaflet-control-zoom-out { border-bottom: none !important; }
+.leaflet-control-attribution { display: none !important; }
+.leaflet-popup { display: none !important; }
+</style>
+</head>
+<body>
+
+<div id="map"></div>
+
+<div id="topbar">
+  <div class="title-pill">
+    <h1>🇯🇵 Japan · April 2026</h1>
+    <span>6 people · 16 days</span>
+  </div>
+  <div class="tabs-row">
+    <div class="tab active" onclick="showCity('tokyo',this)">Tokyo</div>
+    <div class="tab" onclick="showCity('hakone',this)">Hakone</div>
+    <div class="tab" onclick="showCity('kyoto',this)">Kyoto</div>
+    <div class="tab" onclick="showCity('osaka',this)">Osaka</div>
+  </div>
+</div>
+
+<div id="legend">
+  <div class="leg"><div class="leg-dot" style="background:#007aff"></div>Hotel</div>
+  <div class="leg"><div class="leg-dot" style="background:#ff3b30"></div>Restaurant</div>
+  <div class="leg"><div class="leg-dot" style="background:#34c759"></div>Activity</div>
+</div>
+
+<div id="hint">Tap a pin to see details</div>
+
+<div id="sheet">
+  <div class="sheet-inner">
+    <div class="handle-wrap"><div class="handle"></div></div>
+    <div id="s-cat" class="s-cat"></div>
+    <div id="s-name" class="s-name"></div>
+    <div id="s-date" class="s-date"></div>
+    <div id="s-detail" class="s-detail"></div>
+    <div id="s-conf" class="s-conf"></div>
+    <div class="s-actions">
+      <a id="s-maps" class="s-btn btn-primary" href="#">Open in Maps</a>
+      <div class="s-btn btn-secondary" onclick="closeSheet()">Close</div>
+    </div>
+  </div>
+</div>
+
+<script>
+const cities = {
+  tokyo:  { center:[35.672,139.720], zoom:12 },
+  hakone: { center:[35.232,139.095], zoom:12 },
+  kyoto:  { center:[35.003,135.762], zoom:12 },
+  osaka:  { center:[34.664,135.498], zoom:13 }
+};
+
+const locations = {
+  tokyo: [
+    { name:"Hotel Mets Shibuya", cat:"hotel", date:"Apr 12–15", lat:35.6580, lng:139.7037, detail:"Jake & Bella only · Conf: 3358-1906-2315", conf:"+81-3-3409-0011" },
+    { name:"BISK PARK Shirokane Takanawa", cat:"hotel", date:"Apr 15–20", lat:35.6431, lng:139.7302, detail:"All 6 · Airbnb · Key box: 1501", conf:"Host: +81-90-4831-4704" },
+    { name:"Grand Hyatt Tokyo", cat:"hotel", date:"Apr 25–26", lat:35.6604, lng:139.7292, detail:"All 6 · Final night · Leave 8:30 AM Apr 26", conf:"Conf: 2417381230" },
+    { name:"Sushi Onikai", cat:"food", date:"Apr 13 · 6:00 PM", lat:35.6398, lng:139.6986, detail:"With Johnny & Jackie · $70/person", conf:"Confirmed" },
+    { name:"Udon Shin", cat:"food", date:"Apr 13 · ~11 AM", lat:35.6838, lng:139.6974, detail:"No reservations — arrive early for ticket", conf:"03-6276-7816" },
+    { name:"Savoy Pizza", cat:"food", date:"Apr 14 · 5:30 PM", lat:35.6532, lng:139.7370, detail:"Azabu Juban · Confirmed reservation", conf:"" },
+    { name:"Nihonbashi HAJIME Hanare", cat:"food", date:"Apr 16 · 7:00 PM", lat:35.6842, lng:139.7742, detail:"Tonkatsu · All 6 · ~16 min from Airbnb", conf:"Conf: #7KTMEL" },
+    { name:"Tatsunami Stable (Sumo)", cat:"activity", date:"Apr 17 · 8:30 AM", lat:35.7180, lng:139.7890, detail:"Jake, Adam & Dad · JTB booking", conf:"JTB: #010420000021386" },
+    { name:"Sushi Yuu · Omakase", cat:"food", date:"Apr 17 · 7:30 PM", lat:35.6588, lng:139.7278, detail:"All 6 · Private room · $144/person", conf:"Res: #8616" },
+    { name:"teamLab Borderless", cat:"activity", date:"Apr 18 · 9:30 AM", lat:35.6586, lng:139.7453, detail:"All 6 · Kamiyacho Station Exit 5", conf:"Conf: AHRTNHLWLWPT-0002" },
+    { name:"Shibuya Crossing", cat:"activity", date:"Apr 13 · Morning", lat:35.6595, lng:139.7004, detail:"World's busiest pedestrian crossing", conf:"" },
+    { name:"Meiji Shrine", cat:"activity", date:"Apr 13 · Morning", lat:35.6763, lng:139.6993, detail:"Peaceful forested Shinto shrine", conf:"" },
+    { name:"Senso-ji Temple", cat:"activity", date:"Apr 17 · 11:00 AM", lat:35.7148, lng:139.7967, detail:"Meetup point after sumo · Asakusa", conf:"" },
+    { name:"Tsukiji Outer Market", cat:"activity", date:"Apr 19 · 8:00 AM", lat:35.6654, lng:139.7707, detail:"Fresh sushi, tamagoyaki, street food", conf:"" },
+    { name:"Hamarikyu Gardens", cat:"activity", date:"Apr 19 · 11:00 AM", lat:35.6601, lng:139.7625, detail:"Edo-period tidal garden on Tokyo Bay", conf:"" },
+    { name:"Akihabara", cat:"activity", date:"Apr 19 · 2:30 PM", lat:35.7022, lng:139.7741, detail:"Electric Town — gaming, electronics, anime", conf:"" },
+    { name:"Omoide Yokocho", cat:"activity", date:"Apr 15 & 18 · Evening", lat:35.6938, lng:139.6993, detail:"WWII-era yakitori alley · Shinjuku", conf:"" },
+  ],
+  hakone: [
+    { name:"Hakone Gora Byakudan", cat:"hotel", date:"Apr 20–21", lat:35.2490, lng:139.0810, detail:"All 6 · Ryokan · Kaiseki dinner included", conf:"Booking: 5501776685 · +81-460-87-0010" },
+    { name:"Hakone-Yumoto (Lunch Stop)", cat:"activity", date:"Apr 20 · 12:25 PM", lat:35.2394, lng:139.1054, detail:"Arrive Romancecar · Eat lunch here — nothing near ryokan", conf:"" },
+    { name:"Kowakidani Station (Shuttle)", cat:"activity", date:"Apr 20 · ~2:00 PM", lat:35.2467, lng:139.0869, detail:"Call +81-460-87-0010 for ryokan shuttle", conf:"Shuttle: 14:00–18:00 ONLY" },
+    { name:"Lake Ashi", cat:"activity", date:"Apr 21 · Morning", lat:35.1958, lng:139.0214, detail:"Optional pirate ship cruise · Mt. Fuji views", conf:"" },
+    { name:"Odawara Station", cat:"activity", date:"Apr 21 · Late Morning", lat:35.2561, lng:139.1551, detail:"Shinkansen to Kyoto departs from here", conf:"" },
+  ],
+  kyoto: [
+    { name:"Cross Hotel Kyoto", cat:"hotel", date:"Apr 21–25", lat:35.0057, lng:135.7681, detail:"All 6 · 3 rooms · 4 nights", conf:"Itinerary: 73352407055052 · 075-231-8831" },
+    { name:"Hozugawa River Boat (Start)", cat:"activity", date:"Apr 22 · 10:00 AM", lat:35.0167, lng:135.5706, detail:"Kameoka departure · 90 min to Arashiyama", conf:"Confirmed · 10 min walk from JR Kameoka" },
+    { name:"Wagyu Ryotei Bungo", cat:"food", date:"Apr 22 · 7:00 PM", lat:35.0033, lng:135.7763, detail:"All 6 · Private room · $160/person · A5 Wagyu", conf:"Confirmed · Gion-Shijo Station" },
+    { name:"Fushimi Inari Shrine", cat:"activity", date:"Apr 23 · 5:30 AM", lat:34.9671, lng:135.7727, detail:"Sunrise hike · Thousands of torii gates", conf:"" },
+    { name:"Kiyomizu-dera Temple", cat:"activity", date:"Apr 23 · 9:30 AM", lat:34.9948, lng:135.7850, detail:"Hillside temple founded 778 AD", conf:"" },
+    { name:"Arashiyama Bamboo Grove", cat:"activity", date:"Apr 22 · Afternoon", lat:35.0173, lng:135.6726, detail:"After boat ride · Tenryu-ji Temple nearby", conf:"" },
+    { name:"Nishiki Market", cat:"activity", date:"Apr 21 · 4:30 PM", lat:35.0046, lng:135.7658, detail:"Kyoto's Kitchen · 400-year-old covered market", conf:"" },
+    { name:"Gion · Hanamikoji Street", cat:"activity", date:"Apr 23 · 11:00 AM", lat:35.0033, lng:135.7758, detail:"Kyoto's famous geisha district", conf:"" },
+    { name:"Pontocho Alley", cat:"food", date:"Apr 23 · 7:00 PM", lat:35.0063, lng:135.7680, detail:"Lantern-lit riverside dining · 5 min from hotel", conf:"" },
+    { name:"Sannenzaka · Ninenzaka", cat:"activity", date:"Apr 23 · 11:00 AM", lat:34.9990, lng:135.7820, detail:"Historic stone-paved lanes · tea houses", conf:"" },
+  ],
+  osaka: [
+    { name:"Kyocera Dome Osaka", cat:"activity", date:"Apr 24 · 6:00 PM", lat:34.6646, lng:135.4717, detail:"Orix Buffaloes vs. Nippon-Ham · 6 tickets", conf:"StubHub: #639163683" },
+    { name:"Dotonbori (Food Tour)", cat:"food", date:"Apr 24 · 11:30 AM", lat:34.6687, lng:135.5013, detail:"Osaka Food Tour · All 6 · Dotonbori & Shinsekai", conf:"Booking: WAT598681" },
+    { name:"Shinsekai", cat:"activity", date:"Apr 24 · Food Tour", lat:34.6520, lng:135.5063, detail:"Retro Osaka neighborhood · kushikatsu", conf:"" },
+    { name:"Glico Man Sign", cat:"activity", date:"Apr 24 · Afternoon", lat:34.6690, lng:135.5024, detail:"Dotonbori iconic landmark", conf:"" },
+  ]
+};
+
+const catColors  = { hotel:'#007aff', food:'#ff3b30', activity:'#34c759' };
+const catLabels  = { hotel:'Hotel / Stay', food:'Restaurant', activity:'Activity' };
+const catClasses = { hotel:'c-hotel', food:'c-food', activity:'c-act' };
+
+let map, currentMarkers = [];
+
+function makeIcon(cat) {
+  const c = catColors[cat] || '#8e8e93';
+  return L.divIcon({
+    className:'',
+    html:`<div style="width:16px;height:16px;border-radius:50%;background:${c};border:2.5px solid white;box-shadow:0 1px 5px rgba(0,0,0,0.18);"></div>`,
+    iconSize:[16,16], iconAnchor:[8,8]
+  });
+}
+
+function mapsUrl(lat, lng, name) {
+  return `maps://maps.apple.com/?q=${encodeURIComponent(name)}&ll=${lat},${lng}`;
+}
+
+function closeSheet() {
+  document.getElementById('sheet').classList.remove('open');
+  document.getElementById('hint').classList.remove('hidden');
+}
+
+function openSheet(loc) {
+  const catEl = document.getElementById('s-cat');
+  catEl.className = 's-cat ' + catClasses[loc.cat];
+  catEl.textContent = catLabels[loc.cat];
+  document.getElementById('s-name').textContent = loc.name;
+  document.getElementById('s-date').textContent = loc.date;
+  document.getElementById('s-detail').textContent = loc.detail;
+  const confEl = document.getElementById('s-conf');
+  confEl.textContent = loc.conf;
+  confEl.style.display = loc.conf ? 'block' : 'none';
+  document.getElementById('s-maps').href = mapsUrl(loc.lat, loc.lng, loc.name);
+  document.getElementById('sheet').classList.add('open');
+  document.getElementById('hint').classList.add('hidden');
+  map.panTo([loc.lat, loc.lng], { animate:true, duration:0.4 });
+}
+
+function clearMarkers() {
+  currentMarkers.forEach(m => map.removeLayer(m));
+  currentMarkers = [];
+}
+
+function showCity(city, el) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  if (el) el.classList.add('active');
+  closeSheet();
+  clearMarkers();
+  map.setView(cities[city].center, cities[city].zoom, { animate:true });
+  locations[city].forEach(loc => {
+    const m = L.marker([loc.lat, loc.lng], { icon:makeIcon(loc.cat) }).addTo(map);
+    m.on('click', e => { L.DomEvent.stopPropagation(e); openSheet(loc); });
+    currentMarkers.push(m);
+  });
+}
+
+window.onload = function() {
+  map = L.map('map', { zoomControl:true, attributionControl:false })
+         .setView(cities.tokyo.center, cities.tokyo.zoom);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    subdomains:'abc', maxZoom:19
+  }).addTo(map);
+  map.on('click', closeSheet);
+  showCity('tokyo', document.querySelector('.tab'));
+};
+</script>
+</body>
+</html>

@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="dark">
+<title>Japan · Itinerary</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  background: #0f0f0f;
+  color: #f0f0f0;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* Header */
+.topbar {
+  background: #1a1a1a;
+  border-bottom: 0.5px solid rgba(255,255,255,0.1);
+  padding: max(env(safe-area-inset-top), 16px) 16px 12px;
+  position: sticky; top: 0; z-index: 10;
+  display: flex; align-items: center; gap: 12px;
+}
+.back { font-size: 15px; color: #5b9bd5; text-decoration: none; flex-shrink: 0; }
+.topbar-title { font-size: 16px; font-weight: 600; color: #f0f0f0; }
+.topbar-sub { font-size: 12px; color: #666; }
+
+/* Phase headers */
+.phase {
+  padding: 20px 16px 6px;
+  display: flex; align-items: center; gap: 10px;
+}
+.phase-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.phase-name { font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+.phase-dates { font-size: 11px; color: #555; margin-left: auto; }
+
+/* Day card */
+.day {
+  margin: 0 12px 8px;
+  background: #1a1a1a;
+  border: 0.5px solid rgba(255,255,255,0.08);
+  border-radius: 14px;
+  overflow: hidden;
+}
+.day-header {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 14px;
+  border-bottom: 0.5px solid rgba(255,255,255,0.08);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.day-num {
+  width: 36px; height: 36px; border-radius: 10px;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.day-num-date { font-size: 16px; font-weight: 700; line-height: 1; }
+.day-num-month { font-size: 9px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; margin-top: 1px; }
+.day-info { flex: 1; }
+.day-title { font-size: 15px; font-weight: 600; color: #f0f0f0; }
+.day-who { font-size: 12px; color: #666; margin-top: 1px; }
+.day-chevron { font-size: 14px; color: #444; transition: transform 0.2s; }
+.day.open .day-chevron { transform: rotate(90deg); }
+
+/* Events */
+.events { display: none; }
+.day.open .events { display: block; }
+.event {
+  display: flex; gap: 12px;
+  padding: 10px 14px;
+  border-bottom: 0.5px solid rgba(255,255,255,0.05);
+}
+.event:last-child { border-bottom: none; }
+.event-time {
+  font-size: 11px; color: #555; font-weight: 500;
+  min-width: 52px; padding-top: 2px; flex-shrink: 0;
+}
+.event-body { flex: 1; }
+.event-name { font-size: 14px; font-weight: 600; color: #f0f0f0; }
+.event-detail { font-size: 12px; color: #777; margin-top: 2px; line-height: 1.35; }
+.badge {
+  display: inline-block; font-size: 9px; font-weight: 700;
+  letter-spacing: 0.05em; text-transform: uppercase;
+  padding: 2px 6px; border-radius: 4px; margin-left: 6px;
+  vertical-align: middle;
+}
+.b-conf { background: rgba(76,175,125,0.2); color: #4caf7d; }
+.b-plan { background: rgba(255,255,255,0.07); color: #666; }
+.b-urgent { background: rgba(232,201,122,0.2); color: #e8c97a; }
+
+/* Footer */
+.footer { text-align: center; padding: 24px 16px max(env(safe-area-inset-bottom), 24px); font-size: 12px; color: #444; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a href="index.html" class="back">‹ Back</a>
+  <div>
+    <div class="topbar-title">Itinerary</div>
+    <div class="topbar-sub">Apr 11–26 · Japan</div>
+  </div>
+</div>
+
+<!-- PHASE: PRE-TRIP -->
+<div class="phase">
+  <div class="phase-dot" style="background:#5b9bd5"></div>
+  <div class="phase-name" style="color:#5b9bd5">Departure</div>
+  <div class="phase-dates">Apr 11</div>
+</div>
+
+<div class="day" onclick="toggle(this)">
+  <div class="day-header">
+    <div class="day-num" style="background:rgba(91,155,213,0.15)">
+      <div class="day-num-date" style="color:#5b9bd5">11</div>
+      <div class="day-num-month" style="color:#5b9bd5">Apr</div>
+    </div>
+    <div class="day-info">
+      <div class="day-title">Depart JFK</div>
+      <div class="day-who">Jake & Bella · Saturday</div>
+    </div>
+    <div class="day-chevron">›</div>
+  </div>
+  <div class="events">
+    <div class="event"><div class="event-time">1:30 PM</div><div class="event-body"><div class="event-name">UA 7909 JFK → HND <span class="badge b-conf">Confirmed</span></div><div class="event-detail">Operated by ANA · Boeing 777-300ER · Conf: DKZJV4</div></div></div>
+  </div>
+</div>
+
+<!-- PHASE: TOKYO 1 -->
+<div class="phase">
+  <div class="phase-dot" style="background:#5b9bd5"></div>
+  <div class="phase-name" style="color:#5b9bd5">Tokyo — Jake & Bella</div>
+  <div class="phase-dates">Apr 12–14</div>
+</div>
+
+<div class="day" onclick="toggle(this)">
+  <div class="day-header">
+    <div class="day-num" style="background:rgba(91,155,213,0.15)">
+      <div class="day-num-date" style="color:#5b9bd5">12</div>
+      <div class="day-num-month" style="color:#5b9bd5">Apr</div>
+    </div>
+    <div class="day-info">
+      <div class="day-title">Arrive Tokyo</div>
+      <div class="day-who">Jake & Bella · Sunday</div>
+    </div>
+    <div class="day-chevron">›</div>
+  </div>
+  <div class="events">
+    <div class="event"><div class="event-time">4:55 PM</div><div class="event-body"><div class="event-name">Arrive Haneda (HND) <span class="badge b-conf">Confirmed</span></div><div class="event-detail">Pick up Suica cards · Keikyu Line → Shinagawa → Yamanote → Shibuya (~35 min)</div></div></div>
+    <div class="event"><div class="event-time">~6:30 PM</div><div class="event-body"><div class="event-name">Check-in Hotel Mets Shibuya <span class="badge b-conf">Confirmed</span></div><div class="event-detail">3-29-17 Shibuya, Shibuya-ku · Conf: 3358-1906-2315</div></div></div>
+    <div class="event"><div class="event-time">~8:00 PM</div><div class="event-body"><div class="event-name">Easy Dinner <span class="badge b-plan">Planned</span></div><div class="event-detail">Ramen or conveyor belt sushi near hotel · early night, beat jet lag</div></div></div>
+  </div>
+</div>
+
+<div class="day" onclick="toggle(this)">
+  <div class="day-header">
+    <div class="day-num" style="background:rgba(91,155,213,0.15)">
+      <div class="day-num-date" style="color:#5b9bd5">13</div>
+      <div class="day-num-month" style="color:#5b9bd5">Apr</div>
+    </div>
+    <div class="day-info">
+      <div class="day-title">Shibuya · Harajuku · Dinner</div>
+      <div class="day-who">Jake & Bella · Monday</div>
+    </div>
+    <div class="day-chevron">›</div>
+  </div>
+  <div class="events">
+    <div class="event"><div class="event-time">Morning</div><div class="event-body"><div class="event-name">Shibuya Crossing · Harajuku · Meiji Shrine <span class="badge b-plan">Planned</span></div><div class="event-detail">World's busiest crossing · youth fashion street · peaceful forested shrine</div></div></div>
+    <div class="event"><div class="event-time">~11:00 AM</div><div class="event-body"><div class="event-name">Udon Shin <span class="badge b-plan">Planned</span></div><div class="event-detail">2-20-16 Yoyogi, Shibuya-ku · No reservations — arrive early for ticket · 03-6276-7816</div></div></div>
+    <div class="event"><div class="event-time">6:00 PM</div><div class="event-body"><div class="event-name">Sushi Onikai — with Johnny & Jackie <span class="badge b-conf">Confirmed</span></div><div class="event-detail">2-18-11 Kamimeguro, Meguro City 2F · $70/person</div></div></div>
+  </div>
+</div>
+
+<div class="day" onclick="toggle(this)">
+  <div class="day-header">
+    <div class="day-num" style="background:rgba(91,155,213,0.15)">
+      <div class="day-num-date" style="color:#5b9bd5">14</div>
+      <div class="day-num-month" style="color:#5b9bd5">Apr</div>
+    </div>
+    <div class="day-info">
+      <div class="day-title">Kappabashi · Savoy Pizza</div>
+      <div class="day-who">Jake & Bella · Tuesday</div>
+    </div>
+    <div class="day-chevron">›</div>
+  </div>
+  <div class="events">
+    <div class="event"><div class="event-time">10:30 AM</div><div class="event-body"><div class="event-name">Kappabashi · Ginza · Daikanyama <span class="badge b-plan">Planned</span></div><div class="event-detail">Kitchen Town · upscale shopping · boutiques & Tsutaya Books</div></div></div>
+    <div class="event"><div class="event-time">5:30 PM</div><div class="event-body"><div class="event-name">Savoy Pizza <span class="badge b-conf">Confirmed</span></div><div class="event-detail">2-20-12 Azabu Juban, Minato-ku · legendary Tokyo pizza</div></div></div>
+    <div class="event"><div class="event-time">Note</div><div class="event-body"><div class="event-name">Mom & Dad depart LAX</div><div class="event-detail">SQ 11 · 2:20 PM · arriving NRT Apr 15 at 5:50 PM</div></div></div>
+  </div>
+</div>
+
+<!-- PHASE: TOKYO ALL 6 -->
+<div class="phase">
+  <div class="phase-dot" style="background:#9b7fe8"></div>
+  <div class="phase-name" style="color:#9b7fe8">Tokyo — All 6</div>
+  <div class="phase-dates">Apr 15–19</div>
+</div>
+
+<div class="day" onclick="toggle(this)">
+  <div class="day-header">
+    <div class="day-num" style="background:rgba(155,127,232,0.15)">
+      <div class="day-num-date" style="color:#9b7fe8">15</div>
+      <div class="day-num-month" style="color:#9b7fe8">Apr</div>
+    </div>
+    <div class="day-info">
+      <div class="day-title">Everyone Arrives!</div>
+      <div class="day-who">All 6 together · Wednesday</div>
+    </div>
+    <div class="day-chevron">›</div>
+  </div>
+  <div class="events">
+    <div class="event"><div class="event-time">Late AM</div><div class="event-body"><div class="event-name">Kuramae neighborhood <span class="badge b-plan">Planned</span></div><div class="event-detail">Craft coffee · artisan workshops · indie boutiques under the elevated railway</div></div></div>
+    <div class="event"><div class="event-time">4:00 PM</div><div class="event-body"><div class="event-name">Check-in BISK PARK Shirokane Takanawa <span class="badge b-conf">Confirmed</span></div><div class="event-detail">1-18-2 Takanawa, Minato-ku · Key box: 1501 · Host: +81-90-4831-4704</div></div></div>
+    <div class="event"><div class="event-time">5:00 PM</div><div class="event-body"><div class="event-name">Early dinner with Bella <span class="badge b-plan">Planned</span></div><div class="event-detail">Before family arrives</div></div></div>
+    <div class="event"><div class="event-time">5:50 PM</div><div class="event-body"><div class="event-name">Mom & Dad arrive NRT <span class="badge b-conf">Confirmed</span></div><div class="event-detail">SQ 11 from LAX · Narita Express to Tokyo ~90 min, ~$20</div></div></div>
+    <div class="event"><div class="event-time">Evening</div><div class="event-body"><div class="event-name">Omoide Yokocho (Memory Lane) <span class="badge b-plan">Planned</span></div><div class="event-detail">WWII-era yakitori alley · Shinjuku · counter seats, skewers, cold beer</div></div></div>
+    <div class="event"><div class="event-time">9:00 PM</div><div class="event-body"><div class="event-name">Adam & Ali arrive <span class="badge b-conf">Confirmed</span></div><div class="event-detail">All 6 together for the first time!</div></div></div>
+  </div>
+</div>
+
+<div class="day" onclick="toggle(this)">
+  <div class="day-header">
+    <div class="day-num" style="background:rgba(155,127,232,0.15)">
+      <div class="day-num-date" style="color:#9b7fe8">16</div>
+      <div class="day-num-month" style="color:#9b7fe8">Apr</div>
+    </div>
+    <div class="day-info">
+      <div class="day-title">Free Day · Tonkatsu Dinner</div>
+      <div class="day-who">All 6 · Thursday</div>
+    </div>
+    <div class="day-chevron">›</div>
+  </div>
+  <div class="events">
+    <div class="event"><div class="event-time">All Day</div><div class="event-body"><div class="event-name">Free Day · Explore Tokyo <span class="badge b-plan">Planned</span></div><div class="event-detail">First full day all 6 together · open morning and afternoon</div></div></div>
+    <div class="event"><div class="event-time">2:30 PM</div><div class="event-body"><div class="event-name">Ginza · Daikanyama · Kappabashi <span class="badge b-plan">Planned</span></div><div class="event-detail">Upscale shopping · boutiques · Kitchen Town</div></div></div>
+    <div class="event"><div class="event-time">7:00 PM</div><div class="event-body"><div class="event-name">Nihonbashi HAJIME Hanare <span class="badge b-conf">Confirmed</span></div><div class="event-detail">Tonkatsu · All 6 · 1-11-15 Nihonbashimuro-machi, Chuo-ku · Conf: #7KTMEL</div></div></div>
+  </div>
+</div>
+
+<div class="day" onclick="toggle(this)">
+  <div class="day-header">
+    <div class="day-num" style="background:rgba(155,127,232,0.15)">
+      <div class="day-num-date" style="color:#9b7fe8">17</div>
+      <div class="day-num-month" style="color:#9b7fe8">Apr</div>
+    </div>
+    <div class="day-info">
+      <div class="day-title">Sumo · Senso-ji · Omakase</div>
+      <div class="day-who">All 6 · Friday</div>
+    </div>
+    <div class="day-chevron">›</div>
+  </div>
+  <div class="events">
+    <div class="event"><div class="event-time">8:30 AM</div><div class="event-body"><div class="event-name">Sumo Stable Practice — Jake, Adam & Dad <span class="badge b-conf">Confirmed</span></div><div class="event-detail">Tatsunami Stable, Taito Ward · JTB #010420000021386 · exact address in JTB email</div></div></div>
+    <div class="event"><div class="event-time">8:30 AM</div><div class="event-body"><div class="event-name">Yanaka neighborhood — Bella, Mom & Ali <span class="badge b-plan">Planned</span></div><div class="event-detail">Stroll while the guys watch sumo</div></div></div>
+    <div class="event"><div class="event-time">11:00 AM</div><div class="event-body"><div class="event-name">Everyone meets at Senso-ji Temple <span class="badge b-plan">Planned</span></div><div class="event-detail">Asakusa · Tokyo's oldest temple (628 AD) · Kaminarimon Thunder Gate</div></div></div>
+    <div class="event"><div class="event-time">7:30 PM</div><div class="event-body"><div class="event-name">Sushi Yuu Omakase <span class="badge b-conf">Confirmed</span></div><div class="event-detail">All 6 · Private room · $144/person · 1-4-15 Nishi-Azabu · Res: #8616</div></div></div>
+  </div>
+</div>
+
+<div class="day" onclick="toggle(this)">
+  <div class="day-header">
+    <div class="day-num" style="background:rgba(155,127,232,0.15)">
+      <div class="day-num-date" style="color:#9b7fe8">18</div>
+      <div class="day-num-month" style="color:#9b7fe8">Apr</div>
+    </div>
+    <div class="day-info">
+      <div class="day-title">teamLab · Kabukicho</div>
+      <div class="day-who">All 6 · Saturday</div>
+    </div>
+    <div class="day-chevron">›</div>
+  </div>
+  <div class="events">
+    <div class="event"><div class="event-time">9:30 AM</div><div class="event-body"><div class="event-name">teamLab Borderless <span class="badge b-conf">Confirmed</span></div><div class="event-detail">Azabudai Hills · Kamiyacho Station Exit 5 · Conf: AHRTNHLWLWPT-0002 · 6 adults</div></div></div>
+    <div class="event"><div class="event-time">Afternoon</div><div class="event-body"><div class="event-name">Shinjuku · Shibuya · Harajuku <span class="badge b-plan">Planned</span></div><div class="event-detail">Shopping and exploring</div></div></div>
+    <div class="event"><div class="event-time">7:00 PM</div><div class="event-body"><div class="event-name">Group Dinner · Memory Lane <span class="badge b-plan">Planned</span></div><div class="event-detail">Omoide Yokocho yakitori stalls or nearby izakaya</div></div></div>
+    <div class="event"><div class="event-time">Late Night</div><div class="event-body"><div class="event-name">Kabukicho <span class="badge b-plan">Planned</span></div><div class="event-detail">Neon-lit entertainment district · bars, arcades, Golden Gai</div></div></div>
+  </div>
+</div>
+
+<div class="day" onclick="toggle(this)">
+  <div class="day-header">
+    <div class="day-num" style="background:rgba(155,127,232,0.15)">
+      <div class="day-num-date" style="color:#9b7fe8">19</div>
+      <div class="day-num-month" style="color:#9b7fe8">Apr</div>
+    </div>
+    <div class="day-info">
+      <div class="day-title">Tsukiji · Gardens · Akihabara</div>
+      <div class="day-who">All 6 · Sunday</div>
+    </div>
+    <div class="day-chevron">›</div>
+  </div>
+  <div class="events">
+    <div class="event"><div class="event-time">8:00 AM</div><div class="event-body"><div class="event-name">Tsukiji Outer Market <span class="badge b-plan">Planned</span></div><div class="event-detail">Fresh sushi, tamagoyaki, street food · Sunday = less crowded</div></div></div>
+    <div class="event"><div class="event-time">11:00 AM</div><div class="event-body"><div class="event-name">Hamarikyu Gardens <span class="badge b-plan">Planned</span></div><div class="event-detail">Edo-period tidal garden on Tokyo Bay · traditional teahouse on a pond</div></div></div>
+    <div class="event"><div class="event-time">2:30 PM</div><div class="event-body"><div class="event-name">Akihabara <span class="badge b-plan">Planned</span></div><div class="event-detail">Electric Town · multi-story electronics, retro gaming arcades, anime merchandise</div></div></div>
+  </div>
+</div>
+
+<!-- PHASE: HAKONE -->
+<div class="phase">
+  <div class="phase-dot" style="background:#e8c97a"></div>
+  <div class="phase-name" style="color:#e8c97a">Hakone</div>
+  <div class="phase-dates">Apr 20–21</div>
+</div>
+
+<div class="day" onclick="toggle(this)">
+  <div class="day-header">
+    <div class="day-num" style="background:rgba(232,201,122,0.15)">
+      <div class="day-num-date" style="color:#e8c97a">20</div>
+      <div class="day-num-month" style="color:#e8c97a">Apr</div>
+    </div>
+    <div class="day-info">
+      <div class="day-title">Tokyo → Hakone · Ryokan</div>
+      <div class="day-who">All 6 · Monday</div>
+    </div>
+    <div class="day-chevron">›</div>
+  </div>
+  <div class="events">
+    <div class="event"><div class="event-time">Morning</div><div class="event-body"><div class="event-name">Ship bags via Takkyubin <span class="badge b-urgent">Do this first</span></div><div class="event-detail">Drop at nearby 7-Eleven · address to Cross Hotel Kyoto · arrives Apr 21</div></div></div>
+    <div class="event"><div class="event-time">11:00 AM</div><div class="event-body"><div class="event-name">Odakyu Romancecar — Shinjuku → Hakone-Yumoto <span class="badge b-conf">Confirmed</span></div><div class="event-detail">Hakone 5 (EXE10) · Carriage 4 · Seats 8D/C, 9D/C, 10D/C · Right side = Mt. Fuji views · Booking: #00025</div></div></div>
+    <div class="event"><div class="event-time">12:25 PM</div><div class="event-body"><div class="event-name">Arrive Hakone-Yumoto · Eat lunch here <span class="badge b-urgent">Important</span></div><div class="event-detail">Nothing near ryokan · shuttle doesn't run until 14:00</div></div></div>
+    <div class="event"><div class="event-time">~1:30 PM</div><div class="event-body"><div class="event-name">Hakone Tozan Railway → Kowakidani Station</div><div class="event-detail">~20 min · no reservation needed</div></div></div>
+    <div class="event"><div class="event-time">After 2 PM</div><div class="event-body"><div class="event-name">Call ryokan for shuttle <span class="badge b-urgent">Must call</span></div><div class="event-detail">+81-460-87-0010 · free shuttle · ~10 min wait · SHUTTLE RUNS 14:00–18:00 ONLY</div></div></div>
+    <div class="event"><div class="event-time">3:00 PM</div><div class="event-body"><div class="event-name">Check-in Hakone Gora Byakudan <span class="badge b-conf">Confirmed</span></div><div class="event-detail">Luxury ryokan · private open-air onsen · Booking: 5501776685</div></div></div>
+    <div class="event"><div class="event-time">7:00 PM</div><div class="event-body"><div class="event-name">Kaiseki Dinner <span class="badge b-conf">Confirmed</span></div><div class="event-detail">Included in room rate · multi-course · seafood throughout</div></div></div>
+  </div>
+</div>
+
+<div class="day" onclick="toggle(this)">
+  <div class="day-header">
+    <div class="day-num" style="background:rgba(232,201,122,0.15)">
+      <div class="day-num-date" style="color:#e8c97a">21</div>
+      <div class="day-num-month" style="color:#e8c97a">Apr</div>
+    </div>
+    <div class="day-info">
+      <div class="day-title">Hakone → Kyoto</div>
+      <div class="day-who">All 6 · Tuesday</div>
+    </div>
+    <div class="day-chevron">›</div>
+  </div>
+  <div class="events">
+    <div class="event"><div class="event-time">Morning</div><div class="event-body"><div class="event-name">Morning Onsen · Lake Ashi (Optional) <span class="badge b-plan">Planned</span></div><div class="event-detail">Final soak · optional pirate ship cruise on Lake Ashi with Mt. Fuji views</div></div></div>
+    <div class="event"><div class="event-time">~12:30 PM</div><div class="event-body"><div class="event-name">Shinkansen Odawara → Kyoto <span class="badge b-urgent">Book via SmartEX</span></div><div class="event-detail">~2.5 hrs · 200+ mph · book via SmartEX Overseas app</div></div></div>
+    <div class="event"><div class="event-time">3:00 PM</div><div class="event-body"><div class="event-name">Check-in Cross Hotel Kyoto <span class="badge b-conf">Confirmed</span></div><div class="event-detail">71-1 Daikoku-cho, Nakagyo-ku · 3 rooms · Itinerary: 73352407055052</div></div></div>
+    <div class="event"><div class="event-time">4:30 PM</div><div class="event-body"><div class="event-name">Nishiki Market <span class="badge b-plan">Planned</span></div><div class="event-detail">Kyoto's Kitchen · 400-year-old covered market · 100+ stalls</div></div></div>
+    <div class="event"><div class="event-time">7:00 PM</div><div class="event-body"><div class="event-name">Okonomiyaki Dinner <span class="badge b-plan">Planned</span></div><div class="event-detail">DIY savory pancakes at the table · walkable from hotel</div></div></div>
+  </div>
+</div>
+
+<!-- PHASE: KYOTO -->
+<div class="phase">
+  <div class="phase-dot" style="background:#4caf7d"></div>
+  <div class="phase-name" style="color:#4caf7d">Kyoto</div>
+  <div class="phase-dates">Apr 22–25</div>
+</div>
+
+<div class="day" onclick="toggle(this)">
+  <div class="day-header">
+    <div class="day-num" style="background:rgba(76,175,125,0.15)">
+      <div class="day-num-date" style="color:#4caf7d">22</div>
+      <div class="day-num-month" style="color:#4caf7d">Apr</div>
+    </div>
+    <div class="day-info">
+      <div class="day-title">Arashiyama · River Boat · Wagyu</div>
+      <div class="day-who">All 6 · Wednesday</div>
+    </div>
+    <div class="day-chevron">›</div>
+  </div>
+  <div class="events">
+    <div class="event"><div class="event-time">8:30 AM</div><div class="event-body"><div class="event-name">JR Sagano Line → Kameoka <span class="badge b-plan">Planned</span></div><div class="event-detail">Kyoto Station → Kameoka · ~25 min · no reservation · tap Suica</div></div></div>
+    <div class="event"><div class="event-time">10:00 AM</div><div class="event-body"><div class="event-name">Hozugawa River Boat Ride <span class="badge b-conf">Confirmed</span></div><div class="event-detail">90 min through forested gorges → Arashiyama · Shimonakajima-2, Hozucho, Kameoka</div></div></div>
+    <div class="event"><div class="event-time">Afternoon</div><div class="event-body"><div class="event-name">Arashiyama Bamboo Grove · Tenryu-ji <span class="badge b-plan">Planned</span></div><div class="event-detail">Lunch in Arashiyama after · towering bamboo forest · temple and gardens</div></div></div>
+    <div class="event"><div class="event-time">7:00 PM</div><div class="event-body"><div class="event-name">Wagyu Ryotei Bungo <span class="badge b-conf">Confirmed</span></div><div class="event-detail">A5 Wagyu · private room · $160/person · 56 Motoyoshicho, Higashiyama-ku · Gion-Shijo Station</div></div></div>
+  </div>
+</div>
+
+<div class="day" onclick="toggle(this)">
+  <div class="day-header">
+    <div class="day-num" style="background:rgba(76,175,125,0.15)">
+      <div class="day-num-date" style="color:#4caf7d">23</div>
+      <div class="day-num-month" style="color:#4caf7d">Apr</div>
+    </div>
+    <div class="day-info">
+      <div class="day-title">Fushimi Inari · Gion · Pontocho</div>
+      <div class="day-who">All 6 · Thursday</div>
+    </div>
+    <div class="day-chevron">›</div>
+  </div>
+  <div class="events">
+    <div class="event"><div class="event-time">5:30 AM</div><div class="event-body"><div class="event-name">Fushimi Inari · Sunrise Hike <span class="badge b-plan">Planned</span></div><div class="event-detail">JR Nara Line → Inari Station (~5 min) · thousands of torii gates · near-zero crowds at sunrise</div></div></div>
+    <div class="event"><div class="event-time">9:30 AM</div><div class="event-body"><div class="event-name">Kiyomizu-dera Temple <span class="badge b-plan">Planned</span></div><div class="event-detail">Keihan Line → Kiyomizu-Gojo Station · ~20 min uphill walk · founded 778 AD</div></div></div>
+    <div class="event"><div class="event-time">11:00 AM</div><div class="event-body"><div class="event-name">Sannenzaka → Ninenzaka → Gion <span class="badge b-plan">Planned</span></div><div class="event-detail">Historic stone lanes · Hanamikoji Street · geisha district</div></div></div>
+    <div class="event"><div class="event-time">7:00 PM</div><div class="event-body"><div class="event-name">Dinner · Pontocho Alley <span class="badge b-plan">Planned</span></div><div class="event-detail">Lantern-lit riverside dining · 5 min walk from Cross Hotel</div></div></div>
+    <div class="event"><div class="event-time">Late Night</div><div class="event-body"><div class="event-name">Hachimonjiya Bar <span class="badge b-plan">Planned</span></div><div class="event-detail">One of Kyoto's oldest bars</div></div></div>
+  </div>
+</div>
+
+<div class="day" onclick="toggle(this)">
+  <div class="day-header">
+    <div class="day-num" style="background:rgba(76,175,125,0.15)">
+      <div class="day-num-date" style="color:#4caf7d">24</div>
+      <div class="day-num-month" style="color:#4caf7d">Apr</div>
+    </div>
+    <div class="day-info">
+      <div class="day-title">Osaka Day Trip · Food Tour · Baseball</div>
+      <div class="day-who">All 6 · Friday</div>
+    </div>
+    <div class="day-chevron">›</div>
+  </div>
+  <div class="events">
+    <div class="event"><div class="event-time">~9:00 AM</div><div class="event-body"><div class="event-name">Shinkansen Kyoto → Osaka <span class="badge b-plan">Planned</span></div><div class="event-detail">15 min · buy day-of at Kyoto Station</div></div></div>
+    <div class="event"><div class="event-time">11:30 AM</div><div class="event-body"><div class="event-name">Osaka Food Tour <span class="badge b-conf">Confirmed</span></div><div class="event-detail">Dotonbori & Shinsekai · takoyaki, kushikatsu · All 6 · Booking: WAT598681</div></div></div>
+    <div class="event"><div class="event-time">Afternoon</div><div class="event-body"><div class="event-name">Explore Dotonbori <span class="badge b-plan">Planned</span></div><div class="event-detail">Glico Man sign · street food · shopping along the canal</div></div></div>
+    <div class="event"><div class="event-time">6:00 PM</div><div class="event-body"><div class="event-name">Baseball · Orix vs. Nippon-Ham <span class="badge b-conf">Confirmed</span></div><div class="event-detail">Kyocera Dome · 6 tickets · Lower Outfield Reserved · StubHub #639163683</div></div></div>
+    <div class="event"><div class="event-time">After game</div><div class="event-body"><div class="event-name">Return to Kyoto</div><div class="event-detail">Shinkansen back · ~15 min</div></div></div>
+  </div>
+</div>
+
+<!-- PHASE: FINAL TOKYO -->
+<div class="phase">
+  <div class="phase-dot" style="background:#e05a4b"></div>
+  <div class="phase-name" style="color:#e05a4b">Back to Tokyo · Departure</div>
+  <div class="phase-dates">Apr 25–26</div>
+</div>
+
+<div class="day" onclick="toggle(this)">
+  <div class="day-header">
+    <div class="day-num" style="background:rgba(224,90,75,0.15)">
+      <div class="day-num-date" style="color:#e05a4b">25</div>
+      <div class="day-num-month" style="color:#e05a4b">Apr</div>
+    </div>
+    <div class="day-info">
+      <div class="day-title">Kyoto → Tokyo · Grand Hyatt</div>
+      <div class="day-who">All 6 · Saturday</div>
+    </div>
+    <div class="day-chevron">›</div>
+  </div>
+  <div class="events">
+    <div class="event"><div class="event-time">11:00 AM</div><div class="event-body"><div class="event-name">Check-out Cross Hotel Kyoto</div><div class="event-detail">Head to Kyoto Station</div></div></div>
+    <div class="event"><div class="event-time">~12:00 PM</div><div class="event-body"><div class="event-name">Shinkansen Kyoto → Tokyo <span class="badge b-urgent">Book NOW</span></div><div class="event-detail">Golden Week weekend — will sell out · SmartEX Overseas app · ~$95/person × 6</div></div></div>
+    <div class="event"><div class="event-time">3:00 PM</div><div class="event-body"><div class="event-name">Check-in Grand Hyatt Tokyo · Roppongi <span class="badge b-conf">Confirmed</span></div><div class="event-detail">6-10-3 Roppongi, Minato-ku · Conf: 2417381230</div></div></div>
+    <div class="event"><div class="event-time">7:30 PM</div><div class="event-body"><div class="event-name">Dinner with Matthew & Gabby <span class="badge b-plan">Planned</span></div><div class="event-detail">Roppongi · steps from the Grand Hyatt</div></div></div>
+  </div>
+</div>
+
+<div class="day" onclick="toggle(this)">
+  <div class="day-header">
+    <div class="day-num" style="background:rgba(224,90,75,0.15)">
+      <div class="day-num-date" style="color:#e05a4b">26</div>
+      <div class="day-num-month" style="color:#e05a4b">Apr</div>
+    </div>
+    <div class="day-info">
+      <div class="day-title">Depart Tokyo → JFK</div>
+      <div class="day-who">All 6 · Sunday</div>
+    </div>
+    <div class="day-chevron">›</div>
+  </div>
+  <div class="events">
+    <div class="event"><div class="event-time">8:30 AM</div><div class="event-body"><div class="event-name">Leave Grand Hyatt <span class="badge b-urgent">Don't be late</span></div><div class="event-detail">Must leave by 8:30 AM for airport</div></div></div>
+    <div class="event"><div class="event-time">10:50 AM</div><div class="event-body"><div class="event-name">UA 7910 HND → JFK <span class="badge b-conf">Confirmed</span></div><div class="event-detail">Operated by ANA · 13h 10m · Arrives 11:00 AM same day · Conf: DKZJV4</div></div></div>
+  </div>
+</div>
+
+<div class="footer">Japan Trip · April 2026 · Jake Reines + Family</div>
+
+<script>
+function toggle(el) {
+  el.classList.toggle('open');
+}
+</script>
+</body>
+</html>
