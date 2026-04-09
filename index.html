@@ -169,6 +169,41 @@ body { padding: 0 16px max(env(safe-area-inset-bottom), 32px); }
 
 <div class="divider"></div>
 
+<div class="section-label">Currency</div>
+
+<div class="card" style="background:#1a1a1a;border:0.5px solid rgba(255,255,255,0.1);border-radius:16px;padding:16px;margin-bottom:10px;">
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+    <div style="font-size:22px;">💴</div>
+    <div style="font-size:15px;font-weight:600;color:#f0f0f0;">Yen ↔ USD</div>
+    <div id="rate-badge" style="margin-left:auto;font-size:11px;color:#555;font-weight:500;">Loading rate...</div>
+  </div>
+
+  <div style="display:flex;gap:8px;margin-bottom:10px;">
+    <div style="flex:1;">
+      <div style="font-size:10px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#555;margin-bottom:5px;">¥ Yen</div>
+      <input id="yen-input" type="number" inputmode="decimal" placeholder="e.g. 1000"
+        style="width:100%;background:#252525;border:0.5px solid rgba(255,255,255,0.12);border-radius:10px;padding:10px 12px;font-size:17px;color:#f0f0f0;outline:none;"
+        oninput="fromYen(this.value)">
+    </div>
+    <div style="display:flex;align-items:flex-end;padding-bottom:10px;font-size:20px;color:#444;">=</div>
+    <div style="flex:1;">
+      <div style="font-size:10px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#555;margin-bottom:5px;">$ USD</div>
+      <input id="usd-input" type="number" inputmode="decimal" placeholder="e.g. 6.70"
+        style="width:100%;background:#252525;border:0.5px solid rgba(255,255,255,0.12);border-radius:10px;padding:10px 12px;font-size:17px;color:#f0f0f0;outline:none;"
+        oninput="fromUSD(this.value)">
+    </div>
+  </div>
+
+  <div style="display:flex;gap:6px;flex-wrap:wrap;">
+    <div onclick="quickYen(1000)"  style="flex:1;min-width:60px;text-align:center;background:#252525;border:0.5px solid rgba(255,255,255,0.1);border-radius:8px;padding:7px 4px;font-size:12px;font-weight:600;color:#888;cursor:pointer;">¥1K</div>
+    <div onclick="quickYen(5000)"  style="flex:1;min-width:60px;text-align:center;background:#252525;border:0.5px solid rgba(255,255,255,0.1);border-radius:8px;padding:7px 4px;font-size:12px;font-weight:600;color:#888;cursor:pointer;">¥5K</div>
+    <div onclick="quickYen(10000)" style="flex:1;min-width:60px;text-align:center;background:#252525;border:0.5px solid rgba(255,255,255,0.1);border-radius:8px;padding:7px 4px;font-size:12px;font-weight:600;color:#888;cursor:pointer;">¥10K</div>
+    <div onclick="quickYen(50000)" style="flex:1;min-width:60px;text-align:center;background:#252525;border:0.5px solid rgba(255,255,255,0.1);border-radius:8px;padding:7px 4px;font-size:12px;font-weight:600;color:#888;cursor:pointer;">¥50K</div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
 <div class="section-label">The trip</div>
 
 <div class="stats">
@@ -215,6 +250,39 @@ function tick() {
 }
 tick();
 setInterval(tick, 30000);
+</script>
+<script>
+let rate = 159.24; // fallback rate
+
+async function fetchRate() {
+  try {
+    const res = await fetch('https://open.er-api.com/v6/latest/USD');
+    const data = await res.json();
+    if (data && data.rates && data.rates.JPY) {
+      rate = data.rates.JPY;
+      document.getElementById('rate-badge').textContent = '¥' + rate.toFixed(1) + ' per $1 · live';
+    }
+  } catch(e) {
+    document.getElementById('rate-badge').textContent = '¥' + rate.toFixed(1) + ' per $1 · est.';
+  }
+}
+
+function fromYen(val) {
+  const usd = parseFloat(val) / rate;
+  document.getElementById('usd-input').value = isNaN(usd) ? '' : usd.toFixed(2);
+}
+
+function fromUSD(val) {
+  const yen = parseFloat(val) * rate;
+  document.getElementById('yen-input').value = isNaN(yen) ? '' : Math.round(yen);
+}
+
+function quickYen(val) {
+  document.getElementById('yen-input').value = val;
+  fromYen(val);
+}
+
+fetchRate();
 </script>
 <script>
 if ('serviceWorker' in navigator) {
