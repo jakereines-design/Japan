@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="dark">
+<title>Japan · Phrases</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  background: #0f0f0f;
+  color: #f0f0f0;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+  -webkit-text-size-adjust: 100%;
+}
+
+.topbar {
+  background: #1a1a1a;
+  border-bottom: 0.5px solid rgba(255,255,255,0.1);
+  padding: max(env(safe-area-inset-top), 16px) 16px 12px;
+  position: sticky; top: 0; z-index: 10;
+  display: flex; align-items: center; gap: 12px;
+}
+.back { font-size: 15px; color: #5b9bd5; text-decoration: none; flex-shrink: 0; }
+.topbar-title { font-size: 16px; font-weight: 600; color: #f0f0f0; }
+.topbar-sub { font-size: 12px; color: #666; }
+
+/* Search */
+.search-wrap {
+  padding: 12px 16px 4px;
+  position: sticky;
+  top: 57px;
+  background: #0f0f0f;
+  z-index: 9;
+}
+.search-input {
+  width: 100%;
+  background: #1a1a1a;
+  border: 0.5px solid rgba(255,255,255,0.1);
+  border-radius: 10px;
+  padding: 9px 12px 9px 34px;
+  font-size: 15px;
+  color: #f0f0f0;
+  outline: none;
+}
+.search-icon {
+  position: absolute;
+  left: 28px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 14px;
+  color: #555;
+}
+.search-wrap { position: relative; }
+
+/* Category tabs */
+.cat-scroll {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding: 10px 16px 6px;
+  scrollbar-width: none;
+}
+.cat-scroll::-webkit-scrollbar { display: none; }
+.cat-pill {
+  flex-shrink: 0;
+  padding: 5px 14px;
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: 600;
+  background: #1a1a1a;
+  color: #888;
+  border: 0.5px solid rgba(255,255,255,0.1);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s;
+}
+.cat-pill.active { background: #e8c97a; color: #0f0f0f; border-color: #e8c97a; }
+
+/* Section */
+.section { padding: 8px 16px 0; }
+.section-title {
+  font-size: 10px; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: #555; margin-bottom: 8px; padding-top: 12px;
+}
+
+/* Phrase card */
+.phrase-card {
+  background: #1a1a1a;
+  border: 0.5px solid rgba(255,255,255,0.08);
+  border-radius: 12px;
+  margin-bottom: 6px;
+  overflow: hidden;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.phrase-main {
+  display: flex;
+  align-items: center;
+  padding: 11px 14px;
+  gap: 10px;
+}
+.phrase-english {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 600;
+  color: #f0f0f0;
+  line-height: 1.3;
+}
+.phrase-romaji-preview {
+  font-size: 12px;
+  color: #555;
+  white-space: nowrap;
+  flex-shrink: 0;
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.phrase-expand {
+  display: none;
+  background: #141414;
+  border-top: 0.5px solid rgba(255,255,255,0.06);
+  padding: 12px 14px;
+}
+.phrase-card.open .phrase-expand { display: block; }
+.phrase-japanese {
+  font-size: 18px;
+  color: #e8c97a;
+  margin-bottom: 4px;
+  line-height: 1.3;
+}
+.phrase-romaji {
+  font-size: 13px;
+  color: #9b7fe8;
+  margin-bottom: 6px;
+  font-style: italic;
+}
+.phrase-note {
+  font-size: 12px;
+  color: #555;
+  line-height: 1.4;
+  border-top: 0.5px solid rgba(255,255,255,0.06);
+  padding-top: 6px;
+  margin-top: 4px;
+}
+
+/* Number tables */
+.num-table {
+  background: #1a1a1a;
+  border: 0.5px solid rgba(255,255,255,0.08);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 6px;
+}
+.num-row {
+  display: flex;
+  padding: 8px 14px;
+  border-bottom: 0.5px solid rgba(255,255,255,0.05);
+  align-items: center;
+  gap: 8px;
+}
+.num-row:last-child { border-bottom: none; }
+.num-num { font-size: 16px; font-weight: 700; color: #e8c97a; min-width: 24px; }
+.num-word { font-size: 14px; font-weight: 600; color: #f0f0f0; flex: 1; }
+.num-rom { font-size: 12px; color: #9b7fe8; font-style: italic; }
+
+.footer { text-align: center; padding: 24px 16px max(env(safe-area-inset-bottom), 24px); font-size: 12px; color: #444; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a href="index.html" class="back">‹ Back</a>
+  <div>
+    <div class="topbar-title">Japanese Phrases</div>
+    <div class="topbar-sub">Tap any phrase to expand</div>
+  </div>
+</div>
+
+<div class="search-wrap">
+  <span class="search-icon">🔍</span>
+  <input class="search-input" type="text" placeholder="Search phrases..." oninput="search(this.value)">
+</div>
+
+<div class="cat-scroll" id="cat-scroll">
+  <div class="cat-pill active" onclick="filterCat('all', this)">All</div>
+  <div class="cat-pill" onclick="filterCat('basics', this)">Basics</div>
+  <div class="cat-pill" onclick="filterCat('restaurant', this)">Restaurant</div>
+  <div class="cat-pill" onclick="filterCat('shopping', this)">Shopping</div>
+  <div class="cat-pill" onclick="filterCat('transport', this)">Transport</div>
+  <div class="cat-pill" onclick="filterCat('emergency', this)">Emergency</div>
+  <div class="cat-pill" onclick="filterCat('numbers', this)">Numbers</div>
+</div>
+
+<!-- BASICS -->
+<div class="section" data-cat="basics">
+  <div class="section-title">Basics</div>
+
+  <div class="phrase-card" onclick="toggle(this)">
+    <div class="phrase-main"><div class="phrase-english">Hello / Good afternoon</div><div class="phrase-romaji-preview">Konnichiwa</div></div>
+    <div class="phrase-expand"><div class="phrase-japanese">こんにちは</div><div class="phrase-romaji">Konnichiwa</div></div>
+  </div>
+
+  <div class="phrase-card" onclick="toggle(this)">
+    <div class="phrase-main"><div class="phrase-english">Good morning</div><div class="phrase-romaji-preview">Ohayo gozaimasu</div></div>
+    <div class="phrase-expand"><div class="phrase-japanese">おはようございます</div><div class="phrase-romaji">Ohayo gozaimasu</div></div>
+  </div>
+
+  <div class="phrase-card" onclick="toggle(this)">
+    <div class="phrase-main"><div class="phrase-english">Good evening</div><div class="phrase-romaji-preview">Konbanwa</div></div>
+    <div class="phrase-expand"><div class="phrase-japanese">こんばんは</div><div class="phrase-romaji">Konbanwa (gozaimasu)</div><div class="phrase-note">Used when meeting someone after 5pm</div></div>
+  </div>
+
+  <div class="phrase-card" onclick="toggle(this)">
+    <div class="phrase-main"><div class="phrase-english">Good night</div><div class="phrase-romaji-preview">Oyasumi</div></div>
+    <div class="phrase-expand"><div class="phrase-japanese">おやすみ</div><div class="phrase-romaji">Oyasumi</div><div class="phrase-note">Parting phrase at end of night or going to sleep</div></div>
+  </div>
+
+  <div class="phrase-card" onclick="toggle(this)">
+    <div class="phrase-main"><div class="phrase-english">Excuse me / Sorry</div><div class="phrase-romaji-preview">Sumimasen</div></div>
+    <div class="phrase-expand"><div class="phrase-japanese">すみません</div><div class="phrase-romaji">Sumimasen</div><div class="phrase-note">Also used to get a waiter's attention or say "pardon me" in a crowd</div></div>
+  </div>
+
+  <div class="phrase-card" onclick="toggle(this)">
+    <div class="phrase-main"><div class="phrase-english">Thank you</div><div class="phrase-romaji-preview">Arigatou gozaimasu</div></div>
+    <div class="phrase-expand"><div class="phrase-japanese">ありがとうございます</div><div class="phrase-romaji">Arigatou gozaimasu</div></div>
+  </div>
+
+  <div class="phrase-card" onclick="toggle(this)">
+    <div class="phrase-main"><div class="phrase-english">You're welcome</div><div class="phrase-romaji-preview">Do itashimashite</div></div>
+    <div class="phrase-expand"><div class="phrase-japanese">どういたしまして</div><div class="phrase-romaji">Do itashimashite</div></div>
+  </div>
+
+  <div class="phrase-card" onclick="toggle(this)">
+    <div class="phrase-main"><div class="phrase-english">Nice to meet you</div><div class="phrase-romaji-preview">Hajimemashite</div></div>
+    <div class="phrase-expand"><div class="phrase-japanese">はじめまして</div><div class="phrase-romaji">Hajimemashite</div></div>
+  </div>
+
+  <div class="phrase-card" onclick="toggle(this)">
+    <div class="phrase-main"><div class="phrase-english">Yes</div><div class="phrase-romaji-preview">Hai</div></div>
+    <div class="phrase-expand"><div class="phrase-japanese">はい</div><div class="phrase-romaji">Hai</div></div>
+  </div>
+
+  <div class="phrase-card" onclick="toggle(this)">
+    <div class="phrase-main"><div class="phrase-english">No</div><div class="phrase-romaji-preview">Iie</div></div>
+    <div class="phrase-expand"><div class="phrase-japanese">いいえ</div><div class="phrase-romaji">Iie</div></div>
+  </div>
+
+  <div class="phrase-card" onclick="toggle(this)">
+    <div class="phrase-main"><div class="phrase-english">No thank you / I'm good</div><div class="phrase-romaji-preview">Kekkou desu</div></div>
+    <div class="phrase-expand"><div class="phrase-japanese">結構です</div><div class="phrase-romaji">Kekkou desu</div><div class="phrase-note">Polite way to decline something</div></div>
+  </div>
+
+  <div class="phrase-card" onclick="toggle(this)">
+    <div class="phrase-main"><div class="phrase-english">It's okay / No thanks</div><div class="phrase-romaji-preview">Daijōbu desu</div></div>
+    <div class="phrase-expand"><div class="phrase-japanese">大丈夫です</div><div class="phrase-romaji">Daijōbu desu (dai-joe-bu des)</div><div class="phrase-note">Very versatile — means "I'm fine", "no thanks", or "it's okay"</div></div>
+  </div>
+
+  <div class="phrase-card" onclick="toggle(this)">
+    <div class="phrase-main"><div class="phrase-english">Please</div><div class="phrase-romaji-preview">Onegaishimasu</div></div>
+    <div class="phrase-expand"><div class="phrase-japanese">おねがいします</div><div class="phrase-romaji">Onegaishimasu</div></div>
+  </div>
+
+  <div class="phrase-card" onclick="toggle(this)">
+    <div class="phrase-main"><div class="phrase-english">I don't understand</div><div class="phrase-romaji-preview">Wakarimasen</div></div>
+    <div class="phrase-expand"><div class="phrase-japanese">わかりません</div><div class="phrase-romaji">Wakarimasen</div></div>
+  </div>
+
+  <div class="phrase-card" onclick="toggle(this)">
+    <div class="phrase-main"><div class="phrase-english">Is English okay?</div><div class="phrase-romaji-preview">Eigo de daijōbu desu ka?</div></div>
+    <div class="phrase-expand"><div class="phrase-japanese">英語で大丈夫ですか？</div><div class="phrase-romaji">Eigo de daijōbu desu ka?</div></div>
+  </div>
+
+  <div class="phrase-card" onclick="toggle(this)">
+    <div class="phrase-main"><div class="phrase-english">Do you have an English menu?</div><div class="phrase-romaji-preview">Eigo menyu wa arimasuka?</div></div>
+    <div class="phrase-expand"><div class="phrase-japanese">英語メニューはありますか？</div><div class="phrase-romaji">Eigo menyu wa arimasuka?</div></div>
+  </div>
+
+  <div class="phrase-card" onclick="toggle(this)">
+    <div class="phrase-main"><div class="phrase-english">Where is the bathroom?</div><div class="phrase-romaji-preview">Toire wa doko desu ka?</div></div>
+    <div class="phrase-expand"><div class="phrase-japanese">トイレはどこですか？</div><div class="phrase-romaji">Toire wa doko desu ka?</div></div>
+  </div>
+
+  <div class="phrase-card" onclick="toggle(this)">
+    <div class="phrase-main"><div class="phrase-english">I have a reservation</div><div class="phrase-romaji-preview">Yoyaku ga arimasu</div></div>
+    <div class="phrase-expand"><div class="phrase-japanese">予約があります</div><div class="phrase-romaji">Yoyaku ga arimasu</div></div>
+  </div>
+
+  <div class="phrase-card" onclick="toggle(this)">
+    <div class="phrase-main"><div class="phrase-english">A little</div><div class="phrase-romaji-preview">Sukoshi</div></div>
+    <div class="phrase-expand"><div class="phrase-japanese">少し</div><div class="phrase-romaji">Sukoshi</div></div>
+  </div>
+
+  <div class="phrase-card" onclick="toggle(this)">
+    <div class="phrase-main"><div class="phrase-english">I like it</div><div class="phrase-romaji-preview">Sukidesu</div></div>
+    <div class="phrase-expand"><div class="phrase-japanese">好きです</div><div class="phrase-romaji">Sukidesu</div></div>
+  </div>
+
+  <div class="phrase-card" onclick="toggle(this)">
+    <div class="phrase-main"><div class="phrase-english">I don't like it</div><div class="phrase-romaji-preview">Sukijyanai</div></div>
+    <div class="phrase-expand"><div class="phrase-japanese">好きじゃない</div><div class="phrase-romaji">Sukijyanai</div></div>
+  </div>
+</div>
+
+<!-- RESTAURANT -->
+<div class="section" data-cat="restaurant">
+  <div class="section-title">Restaurant</div>
+
+  <div class="phrase-card" onclick="toggle(this)">
+    <div class="phrase-main"><div class="phrase-english">Excuse me (calling waiter)</div><div class="phrase-romaji-preview">Sumimasen</div></div>
+    <div class="phrase-expand"><div class="phrase-japanese">すみません</div><div class="phrase-romaji">Sumimasen</div><div class="phrase-note">Waiters will NOT come until called — use this when ready to order</div></div>
+  </div>
+
+  <div class="phrase-card" onclick="toggle(this)">
+    <div class="phrase-main"><div class="phrase-english">Not ready to order yet</div><div class="phrase-romaji-preview">Mada chotto</div></div>
+    <div class="phrase-expand"><div class="phrase-japanese">まだちょっと</div><div class="phrase-romaji">Mada chotto</div></div>
+  </div>
+
+  <div class="phrase-card" onclick="toggle(this)">
+    <div class="phrase-main"><div class="phrase-english">I'd like this one please</div><div class="phrase-romaji-preview">Kore hitotsu kudasai</div></div>
+    <div class="phrase-expand"><div class="phrase-japanese">これ一つください</div><div class="phrase-romaji">Kore hitotsu kudasai</div><div class="phrase-note">Point at the menu item — works even if you can't read Japanese</div></div>
+  </div>
+
+  <div class="phrase-card" onclick="toggle(this)">
+    <div class="phrase-main"><div class="phrase-english">I'll take this / this please</div><div class="phrase-romaji-preview">Kore kudasai</div></div>
+    <div class="phrase-expand"><div class="phrase-japanese">これください</div><div class="phrase-romaji">Kore kudasai</div></div>
+  </div>
+
+  <div class="phrase-card" onclick="toggle(this)">
+    <div class="phrase-main"><div class="phrase-english">_____ please</div><div class="phrase-romaji-preview">______ wo kudasai</div></div>
+    <div class="phrase-expand"><div class="phrase-japanese">______をください</div><div class="phrase-romaji">______ wo kudasai</div><div class="phrase-note">Point at something in a shop or on a menu and say this</div></div>
+  </div>
+
+  <div class="phrase-card" onclick="toggle(this)">
+    <div class="phrase-main"><div class="phrase-english">Delicious!</div><div class="phrase-romaji-preview">Oishii!</div></div>
+    <div class="phrase-expand"><div class="phrase-japanese">おいしい！</div><div class="phrase-romaji">Oishii! (oh-ee-shee)</div><div class="phrase-note">Say this and the chef/host will love you</div></div>
+  </div>
+
+  <div class="phrase-card" onclick="toggle(this)">
+    <div class="phrase-main"><div class="phrase-english">Thank you for the meal</div><div class="phrase-romaji-preview">Gochisōsama deshita</div></div>
+    <div class="phrase-expand"><div class="phrase-japanese">ごちそうさまでした</div><div class="phrase-romaji">Gochisōsama deshita (go-chee-so-sama-deshta)</div><div class="phrase-note">Say this AFTER eating — means "thank you for the wonderful food"</div></div>
+  </div>
+
+  <div class="phrase-card" onclick="toggle(this)">
+    <div class="phrase-main"><div class="phrase-english">Check please</div><div class="phrase-romaji-preview">Okaikei onegaishimasu</div></div>
+    <div class="phrase-expand"><div class="phrase-japanese">お会計おねがいします</div><div class="phrase-romaji">Okaikei onegaishimasu</div></div>
+  </div>
+
+  <div class="phrase-card" onclick="toggle(this)">
+    <div class="phrase-main"><div class="phrase-english">Do you have _____?</div><div class="phrase-romaji-preview">_____ wa arimasuka?</div></div>
+    <div class="phrase-expand"><div class="phrase-japanese">_____はありますか？</div><div class="phrase-romaji">_____ wa arimasuka?</div><div class="phrase-note">e.g. "Supūn wa arimasuka?" = Do you have a spoon?</div></div>
+  </div>
+
+  <div class="phrase-card" onclick="toggle(this)">
+    <div class="phrase-main"><div class="phrase-english">Beer</div><div class="phrase-romaji-preview">Bīru</div></div>
+    <div class="phrase-expand"><div class="phrase-japanese">ビール</div><div class="phrase-romaji">Bīru</div></div>
+  </div>
+
+  <div class="phrase-card" onclick="toggle(this)">
+    <div class="phrase-main"><div class="phrase-english">Sake</div><div class="phrase-romaji-preview">Nihonshu</div></div>
+    <div class="phrase-expand"><div class="phrase-japanese">日本酒</div><div class="phrase-romaji">Nihonshu</div></div>
+  </div>
+
+  <div class="phrase-card" onclick="toggle(this)">
+    <div class="phrase-main"><div class="phrase-english">Chopsticks</div><div class="phrase-romaji-preview">Ohashi</div></div>
+    <div class="phrase-expand"><div class="phrase-japanese">おはし</div><div class="phrase-romaji">Ohashi</div></div>
+  </div>
+
+  <div class="phrase-card" onclick="toggle(this)">
+    <div class="phrase-main"><div class="phrase-english">Table seats or counter seats?</div><div class="phrase-romaji-preview">Teeburuseki to kauntaaseki</div></div>
+    <div class="phrase-expand"><div class="phrase-japanese">テーブル席とカウンター席</div><div class="phrase-romaji">Teeburuseki to kauntaaseki (gochira ga yoroshiidesu ka)?</div><div class="phrase-note">Reply: "Teeburusekide" (table) or "Kauntaasekide" (counter)</div></div>
+  </div>
+
+  <div class="phrase-card" onclick="toggle(this)">
+    <div class="phrase-main"><div class="phrase-english">Would you like this warmed up?</div><div class="phrase-romaji-preview">Atatamemasu ka?</div></div>
+    <div class="phrase-expand"><div class="phrase-japanese">温めますか？</div><div class="phrase-romaji">Atatamemasu ka?</div><div class="phrase-note">Common at convenience stores (7-Eleven, FamilyMart)</div></div>
+  </div>
+
+  <div class="phrase-card" onclick="toggle(this)">
+    <div class="phrase-main"><div class="phrase-english">No allergies / I can eat anything</div><div class="phrase-romaji-preview">Arerugi wa arimasen</div></div>
+    <div class="phrase-expand"><div class="phrase-japanese">アレルギーはありません</div><div class="phrase-romaji">Arerugi wa arimasen</div></div>
+  </div>
+
+  <div class="phrase-card" onclick="toggle(this)">
+    <div class="phrase-main"><div class="phrase-english">I don't eat meat</div><div class="phrase-romaji-preview">Niku wa tabemasen</div></div>
+    <div class="phrase-expand"><div class="phrase-japanese">肉は食べません</div><div class="phrase-romaji">Niku wa tabemasen</div></div>
+  </div>
+</div>
+
+<!-- SHOPPING -->
+<div class="section" data-cat="shopping">
+  <div class="section-title">Shopping</div>
+
+  <div class="phrase-card" onclick="toggle(this)">
+    <div class="phrase-main"><div class="phrase-english">How much is it?</div><div class="phrase-romaji-preview">Ikura desu ka?</div></div>
+    <div class="phrase-expand"><div class="phrase-japanese">いくらですか？</div><div class="phrase-romaji">Ikura desu ka?</div></div>
+  </div>
+
+  <div class="phrase-card" onclick="toggle(this)">
+    <div class="phrase-main"><div class="phrase-english">Pay by card please</div><div class="phrase-romaji-preview">Kādo de onegaishimasu</div></div>
+    <div class="phrase-expand"><div class="phrase-japanese">カードでおねがいします</div><div class="phrase-romaji">Kādo de onegaishimasu</div></div>
+  </div>
+
+  <div class="phrase-card" onclick="toggle(this)">
+    <div class="phrase-main"><div class="phrase-english">Pay with cash</div><div class="phrase-romaji-preview">Genkin de</div></div>
+    <div class="phrase-expand"><div class="phrase-japanese">現金で</div><div class="phrase-romaji">Genkin de</div></div>
+  </div>
+
+  <div class="phrase-card" onclick="toggle(this)">
+    <div class="phrase-main"><div class="phrase-english">Do you need a bag?</div><div class="phrase-romaji-preview">Fukuro irimasu ka?</div></div>
+    <div class="phrase-expand"><div class="phrase-japanese">袋いりますか？</div><div class="phrase-romaji">Fukuro irimasu ka?</div><div class="phrase-note">Japan charges for bags — reply "Iie, kekkou desu" to decline</div></div>
+  </div>
+
+  <div class="phrase-card" onclick="toggle(this)">
+    <div class="phrase-main"><div class="phrase-english">Do you have _____?</div><div class="phrase-romaji-preview">_____ wa arimasuka?</div></div>
+    <div class="phrase-expand"><div class="phrase-japanese">_____はありますか？</div><div class="phrase-romaji">_____ wa arimasuka?</div><div class="phrase-note">e.g. "Toriniku wa arimasuka?" = Do you have chicken?</div></div>
+  </div>
+
+  <div class="phrase-card" onclick="toggle(this)">
+    <div class="phrase-main"><div class="phrase-english">Small / Large</div><div class="phrase-romaji-preview">Chiisai / Ōkii</div></div>
+    <div class="phrase-expand"><div class="phrase-japanese">小さい / 大きい</div><div class="phrase-romaji">Chiisai / Ōkii</div></div>
+  </div>
+
+  <div class="phrase-card" onclick="toggle(this)">
+    <div class="phrase-main"><div class="phrase-english">Can I try this on?</div><div class="phrase-romaji-preview">Kite mite mo ii desu ka?</div></div>
+    <div class="phrase-expand"><div class="phrase-japanese">着てみてもいいですか？</div><div class="phrase-romaji">Kite mite mo ii desu ka?</div></div>
+  </div>
+
+  <div class="phrase-card" onclick="toggle(this)">
+    <div class="phrase-main"><div class="phrase-english">Just looking, thank you</div><div class="phrase-romaji-preview">Mite iru dake desu</div></div>
+    <div class="phrase-expand"><div class="phrase-japanese">見ているだけです</div><div class="phrase-romaji">Mite iru dake desu</div><div class="phrase-note">Useful in Ginza and Harajuku when staff approach you</div></div>
+  </div>
+
+  <div class="phrase-card" onclick="toggle(this)">
+    <div class="phrase-main"><div class="phrase-english">Tax-free please</div><div class="phrase-romaji-preview">Menzeide onegaishimasu</div></div>
+    <div class="phrase-expand"><div class="phrase-japanese">免税でおねがいします</div><div class="phrase-romaji">Menzeide onegaishimasu</div><div class="phrase-note">As tourists you can get tax-free (8-10% off) at many stores with your passport</div></div>
+  </div>
+</div>
+
+<!-- TRANSPORT -->
+<div class="section" data-cat="transport">
+  <div class="section-title">Transport</div>
+
+  <div class="phrase-card" onclick="toggle(this)">
+    <div class="phrase-main"><div class="phrase-english">Where is the train station?</div><div class="phrase-romaji-preview">Eki wa doko desu ka?</div></div>
+    <div class="phrase-expand"><div class="phrase-japanese">駅はどこですか？</div><div class="phrase-romaji">Eki wa doko desu ka?</div><div class="phrase-note">Replace "Eki" with station name e.g. "Shibuya-eki wa doko desu ka?"</div></div>
+  </div>
+
+  <div class="phrase-card" onclick="toggle(this)">
+    <div class="phrase-main"><div class="phrase-english">Train station</div><div class="phrase-romaji-preview">Eki</div></div>
+    <div class="phrase-expand"><div class="phrase-japanese">駅</div><div class="phrase-romaji">Eki</div></div>
+  </div>
+
+  <div class="phrase-card" onclick="toggle(this)">
+    <div class="phrase-main"><div class="phrase-english">Where is _____?</div><div class="phrase-romaji-preview">_____ wa doko desu ka?</div></div>
+    <div class="phrase-expand"><div class="phrase-japanese">_____はどこですか？</div><div class="phrase-romaji">_____ wa doko desu ka?</div></div>
+  </div>
+
+  <div class="phrase-card" onclick="toggle(this)">
+    <div class="phrase-main"><div class="phrase-english">One ticket to _____ please</div><div class="phrase-romaji-preview">_____ made ichi-mai kudasai</div></div>
+    <div class="phrase-expand"><div class="phrase-japanese">_____まで一枚ください</div><div class="phrase-romaji">_____ made ichi-mai kudasai</div></div>
+  </div>
+
+  <div class="phrase-card" onclick="toggle(this)">
+    <div class="phrase-main"><div class="phrase-english">Does this train go to _____?</div><div class="phrase-romaji-preview">Kono densha wa _____ ni ikimasu ka?</div></div>
+    <div class="phrase-expand"><div class="phrase-japanese">この電車は_____に行きますか？</div><div class="phrase-romaji">Kono densha wa _____ ni ikimasu ka?</div></div>
+  </div>
+
+  <div class="phrase-card" onclick="toggle(this)">
+    <div class="phrase-main"><div class="phrase-english">Please take me to _____</div><div class="phrase-romaji-preview">_____ made onegaishimasu</div></div>
+    <div class="phrase-expand"><div class="phrase-japanese">_____までおねがいします</div><div class="phrase-romaji">_____ made onegaishimasu</div><div class="phrase-note">Used in taxis — show the driver the address on your phone</div></div>
+  </div>
+
+  <div class="phrase-card" onclick="toggle(this)">
+    <div class="phrase-main"><div class="phrase-english">Please stop here</div><div class="phrase-romaji-preview">Koko de tomete kudasai</div></div>
+    <div class="phrase-expand"><div class="phrase-japanese">ここで止めてください</div><div class="phrase-romaji">Koko de tomete kudasai</div><div class="phrase-note">Used in taxis</div></div>
+  </div>
+</div>
+
+<!-- EMERGENCY -->
+<div class="section" data-cat="emergency">
+  <div class="section-title">Emergency</div>
+
+  <div class="phrase-card" onclick="toggle(this)">
+    <div class="phrase-main"><div class="phrase-english">Help!</div><div class="phrase-romaji-preview">Tasukete!</div></div>
+    <div class="phrase-expand"><div class="phrase-japanese">助けて！</div><div class="phrase-romaji">Tasukete!</div></div>
+  </div>
+
+  <div class="phrase-card" onclick="toggle(this)">
+    <div class="phrase-main"><div class="phrase-english">Call an ambulance!</div><div class="phrase-romaji-preview">Kyukyusha wo yonde kudasai!</div></div>
+    <div class="phrase-expand"><div class="phrase-japanese">救急車を呼んでください！</div><div class="phrase-romaji">Kyukyusha wo yonde kudasai!</div><div class="phrase-note">Emergency: dial 119</div></div>
+  </div>
+
+  <div class="phrase-card" onclick="toggle(this)">
+    <div class="phrase-main"><div class="phrase-english">Call the police!</div><div class="phrase-romaji-preview">Keisatsu wo yonde kudasai!</div></div>
+    <div class="phrase-expand"><div class="phrase-japanese">警察を呼んでください！</div><div class="phrase-romaji">Keisatsu wo yonde kudasai!</div><div class="phrase-note">Emergency: dial 110</div></div>
+  </div>
+
+  <div class="phrase-card" onclick="toggle(this)">
+    <div class="phrase-main"><div class="phrase-english">I need a doctor</div><div class="phrase-romaji-preview">Isha ga hitsuyou desu</div></div>
+    <div class="phrase-expand"><div class="phrase-japanese">医者が必要です</div><div class="phrase-romaji">Isha ga hitsuyou desu</div></div>
+  </div>
+
+  <div class="phrase-card" onclick="toggle(this)">
+    <div class="phrase-main"><div class="phrase-english">I am hurt</div><div class="phrase-romaji-preview">Kega wo shimashita</div></div>
+    <div class="phrase-expand"><div class="phrase-japanese">怪我をしました</div><div class="phrase-romaji">Kega wo shimashita</div></div>
+  </div>
+
+  <div class="phrase-card" onclick="toggle(this)">
+    <div class="phrase-main"><div class="phrase-english">I lost my passport</div><div class="phrase-romaji-preview">Pasupōto wo nakushimashita</div></div>
+    <div class="phrase-expand"><div class="phrase-japanese">パスポートをなくしました</div><div class="phrase-romaji">Pasupōto wo nakushimashita</div></div>
+  </div>
+
+  <div class="phrase-card" onclick="toggle(this)">
+    <div class="phrase-main"><div class="phrase-english">Where is the hospital?</div><div class="phrase-romaji-preview">Byouin wa doko desu ka?</div></div>
+    <div class="phrase-expand"><div class="phrase-japanese">病院はどこですか？</div><div class="phrase-romaji">Byouin wa doko desu ka?</div></div>
+  </div>
+
+  <div class="phrase-card" onclick="toggle(this)">
+    <div class="phrase-main"><div class="phrase-english">I am allergic to _____</div><div class="phrase-romaji-preview">_____ arerugi ga arimasu</div></div>
+    <div class="phrase-expand"><div class="phrase-japanese">_____アレルギーがあります</div><div class="phrase-romaji">_____ arerugi ga arimasu</div></div>
+  </div>
+
+  <div class="phrase-card" onclick="toggle(this)">
+    <div class="phrase-main"><div class="phrase-english">Emergency numbers</div><div class="phrase-romaji-preview">110 / 119</div></div>
+    <div class="phrase-expand"><div class="phrase-japanese">緊急番号</div><div class="phrase-romaji">Police: 110 · Ambulance/Fire: 119</div><div class="phrase-note">US Embassy Tokyo: +81-3-3224-5000</div></div>
+  </div>
+</div>
+
+<!-- NUMBERS -->
+<div class="section" data-cat="numbers">
+  <div class="section-title">Counting (General)</div>
+  <div class="num-table">
+    <div class="num-row"><div class="num-num">1</div><div class="num-word">Hitotsu</div><div class="num-rom">ひとつ</div></div>
+    <div class="num-row"><div class="num-num">2</div><div class="num-word">Futatsu</div><div class="num-rom">ふたつ</div></div>
+    <div class="num-row"><div class="num-num">3</div><div class="num-word">Mittsu</div><div class="num-rom">みっつ</div></div>
+    <div class="num-row"><div class="num-num">4</div><div class="num-word">Yottsu</div><div class="num-rom">よっつ</div></div>
+    <div class="num-row"><div class="num-num">5</div><div class="num-word">Itsutsu</div><div class="num-rom">いつつ</div></div>
+    <div class="num-row"><div class="num-num">6</div><div class="num-word">Muttsu</div><div class="num-rom">むっつ</div></div>
+    <div class="num-row"><div class="num-num">7</div><div class="num-word">Nanatsu</div><div class="num-rom">ななつ</div></div>
+    <div class="num-row"><div class="num-num">8</div><div class="num-word">Yattsu</div><div class="num-rom">やっつ</div></div>
+    <div class="num-row"><div class="num-num">9</div><div class="num-word">Kokonotsu</div><div class="num-rom">ここのつ</div></div>
+    <div class="num-row"><div class="num-num">10</div><div class="num-word">Tō</div><div class="num-rom">とお</div></div>
+  </div>
+
+  <div class="section-title">Counting People</div>
+  <div class="num-table">
+    <div class="num-row"><div class="num-num">1</div><div class="num-word">Hitori</div><div class="num-rom">一人</div></div>
+    <div class="num-row"><div class="num-num">2</div><div class="num-word">Futari</div><div class="num-rom">二人</div></div>
+    <div class="num-row"><div class="num-num">3</div><div class="num-word">Sannin</div><div class="num-rom">三人</div></div>
+    <div class="num-row"><div class="num-num">4</div><div class="num-word">Yonin</div><div class="num-rom">四人</div></div>
+    <div class="num-row"><div class="num-num">5</div><div class="num-word">Gonin</div><div class="num-rom">五人</div></div>
+    <div class="num-row"><div class="num-num">6</div><div class="num-word">Rokunin</div><div class="num-rom">六人</div></div>
+  </div>
+
+  <div class="section-title">Basic Numbers</div>
+  <div class="num-table">
+    <div class="num-row"><div class="num-num">1</div><div class="num-word">Ichi</div><div class="num-rom">一</div></div>
+    <div class="num-row"><div class="num-num">2</div><div class="num-word">Ni</div><div class="num-rom">二</div></div>
+    <div class="num-row"><div class="num-num">3</div><div class="num-word">San</div><div class="num-rom">三</div></div>
+    <div class="num-row"><div class="num-num">4</div><div class="num-word">Shi / Yon</div><div class="num-rom">四</div></div>
+    <div class="num-row"><div class="num-num">5</div><div class="num-word">Go</div><div class="num-rom">五</div></div>
+    <div class="num-row"><div class="num-num">6</div><div class="num-word">Roku</div><div class="num-rom">六</div></div>
+    <div class="num-row"><div class="num-num">7</div><div class="num-word">Shichi / Nana</div><div class="num-rom">七</div></div>
+    <div class="num-row"><div class="num-num">8</div><div class="num-word">Hachi</div><div class="num-rom">八</div></div>
+    <div class="num-row"><div class="num-num">9</div><div class="num-word">Ku / Kyuu</div><div class="num-rom">九</div></div>
+    <div class="num-row"><div class="num-num">10</div><div class="num-word">Juu</div><div class="num-rom">十</div></div>
+  </div>
+</div>
+
+<div class="footer">Tap any phrase to expand · Prepared by Bella & Claude</div>
+
+<script>
+function toggle(el) {
+  el.classList.toggle('open');
+}
+
+function filterCat(cat, el) {
+  document.querySelectorAll('.cat-pill').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  document.querySelectorAll('.section[data-cat]').forEach(s => {
+    s.style.display = (cat === 'all' || s.dataset.cat === cat) ? 'block' : 'none';
+  });
+}
+
+function search(val) {
+  const q = val.toLowerCase().trim();
+  document.querySelectorAll('.section[data-cat]').forEach(s => s.style.display = 'block');
+  document.querySelectorAll('.cat-pill').forEach(p => p.classList.remove('active'));
+  document.querySelector('.cat-pill').classList.add('active');
+
+  document.querySelectorAll('.phrase-card').forEach(card => {
+    const text = card.textContent.toLowerCase();
+    card.style.display = (!q || text.includes(q)) ? 'block' : 'none';
+  });
+
+  document.querySelectorAll('.num-table').forEach(t => {
+    const text = t.textContent.toLowerCase();
+    t.style.display = (!q || text.includes(q)) ? 'block' : 'none';
+  });
+}
+</script>
+<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/Japan/sw.js');
+}
+</script>
+</body>
+</html>
