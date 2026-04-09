@@ -229,7 +229,7 @@ function makeIcon(cat) {
 }
 
 function mapsUrl(lat, lng, name) {
-  return `maps://maps.apple.com/?q=${encodeURIComponent(name)}&ll=${lat},${lng}`;
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(name)}&ll=${lat},${lng}`;
 }
 
 function closeSheet() {
