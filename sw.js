@@ -1,5 +1,5 @@
-const CACHE = 'japan-trip-v3';
-const TILE_CACHE = 'japan-tiles-v3';
+const CACHE = 'japan-trip-v4';
+const TILE_CACHE = 'japan-tiles-v4';
 
 const STATIC = [
   './',
@@ -7,11 +7,12 @@ const STATIC = [
   './cheatsheet.html',
   './itinerary.html',
   './map.html',
+  './phrases.html',
   'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css',
   'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js',
 ];
 
-// Install: cache all static assets immediately
+// Install: pre-cache all static assets
 self.addEventListener('install', e => {
   e.waitUntil(
     caches.open(CACHE).then(c => c.addAll(STATIC))
@@ -35,8 +36,9 @@ self.addEventListener('activate', e => {
 self.addEventListener('fetch', e => {
   const url = new URL(e.request.url);
 
-  // Map tiles: cache as you browse, serve from cache when offline
-  if (url.hostname.includes('tile.openstreetmap.org')) {
+  // Map tiles: cache-first (fast, works offline, tiles don't change)
+  if (url.hostname.includes('tile.openstreetmap.org') ||
+      url.hostname.includes('arcgisonline.com')) {
     e.respondWith(
       caches.open(TILE_CACHE).then(cache =>
         cache.match(e.request).then(cached => {
@@ -51,17 +53,18 @@ self.addEventListener('fetch', e => {
     return;
   }
 
-  // Everything else: cache first, fall back to network
+  // Everything else: network-first, fall back to cache if offline
   e.respondWith(
-    caches.match(e.request).then(cached => {
-      if (cached) return cached;
-      return fetch(e.request).then(res => {
-        if (res && res.status === 200) {
-          const clone = res.clone();
-          caches.open(CACHE).then(c => c.put(e.request, clone));
-        }
-        return res;
-      });
+    fetch(e.request).then(res => {
+      // Save fresh copy to cache
+      if (res && res.status === 200) {
+        const clone = res.clone();
+        caches.open(CACHE).then(c => c.put(e.request, clone));
+      }
+      return res;
+    }).catch(() => {
+      // Offline — serve from cache
+      return caches.match(e.request);
     })
   );
 });
