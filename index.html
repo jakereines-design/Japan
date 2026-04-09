@@ -208,6 +208,7 @@ body { padding: 0 16px max(env(safe-area-inset-bottom), 32px); }
     <div onclick="quickYen(5000)"  style="flex:1;min-width:60px;text-align:center;background:#252525;border:0.5px solid rgba(255,255,255,0.1);border-radius:8px;padding:7px 4px;font-size:12px;font-weight:600;color:#888;cursor:pointer;">¥5K</div>
     <div onclick="quickYen(10000)" style="flex:1;min-width:60px;text-align:center;background:#252525;border:0.5px solid rgba(255,255,255,0.1);border-radius:8px;padding:7px 4px;font-size:12px;font-weight:600;color:#888;cursor:pointer;">¥10K</div>
     <div onclick="quickYen(50000)" style="flex:1;min-width:60px;text-align:center;background:#252525;border:0.5px solid rgba(255,255,255,0.1);border-radius:8px;padding:7px 4px;font-size:12px;font-weight:600;color:#888;cursor:pointer;">¥50K</div>
+    <div onclick="clearConverter()" style="text-align:center;background:rgba(224,90,75,0.12);border:0.5px solid rgba(224,90,75,0.25);border-radius:8px;padding:7px 14px;font-size:12px;font-weight:600;color:#e05a4b;cursor:pointer;white-space:nowrap;">✕ Clear</div>
   </div>
 </div>
 
@@ -289,6 +290,11 @@ function fromUSD(val) {
 function quickYen(val) {
   document.getElementById('yen-input').value = val;
   fromYen(val);
+}
+
+function clearConverter() {
+  document.getElementById('yen-input').value = '';
+  document.getElementById('usd-input').value = '';
 }
 
 fetchRate();
