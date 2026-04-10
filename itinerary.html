@@ -90,6 +90,9 @@ html, body {
 .b-plan { background: rgba(255,255,255,0.07); color: #666; }
 .b-urgent { background: rgba(232,201,122,0.2); color: #e8c97a; }
 
+.event-detail a { color: #5b9bd5; text-decoration: none; }
+.event-detail a.phone { color: #4caf7d; }
+
 /* Footer */
 .footer { text-align: center; padding: 24px 16px max(env(safe-area-inset-bottom), 24px); font-size: 12px; color: #444; }
 </style>
@@ -149,7 +152,7 @@ html, body {
   </div>
   <div class="events">
     <div class="event"><div class="event-time">4:55 PM</div><div class="event-body"><div class="event-name">Arrive Haneda (HND) <span class="badge b-conf">Confirmed</span></div><div class="event-detail">Pick up Suica cards · Keikyu Line → Shinagawa → Yamanote → Shibuya (~35 min)</div></div></div>
-    <div class="event"><div class="event-time">~6:30 PM</div><div class="event-body"><div class="event-name">Check-in Hotel Mets Shibuya <span class="badge b-conf">Confirmed</span></div><div class="event-detail">3-29-17 Shibuya, Shibuya-ku · Conf: 3358-1906-2315</div></div></div>
+    <div class="event"><div class="event-time">~6:30 PM</div><div class="event-body"><div class="event-name">Check-in Hotel Mets Shibuya <span class="badge b-conf">Confirmed</span></div><div class="event-detail"><a href="https://www.google.com/maps/search/?api=1&query=3-29-17+Shibuya+Shibuya-ku+Tokyo">3-29-17 Shibuya, Shibuya-ku</a> · Conf: 3358-1906-2315</div></div></div>
     <div class="event"><div class="event-time">~8:00 PM</div><div class="event-body"><div class="event-name">Easy Dinner <span class="badge b-plan">Planned</span></div><div class="event-detail">Ramen or conveyor belt sushi near hotel · early night, beat jet lag</div></div></div>
   </div>
 </div>
@@ -168,8 +171,8 @@ html, body {
   </div>
   <div class="events">
     <div class="event"><div class="event-time">Morning</div><div class="event-body"><div class="event-name">Shibuya Crossing · Harajuku · Meiji Shrine <span class="badge b-plan">Planned</span></div><div class="event-detail">World's busiest crossing · youth fashion street · peaceful forested shrine</div></div></div>
-    <div class="event"><div class="event-time">~11:00 AM</div><div class="event-body"><div class="event-name">Udon Shin <span class="badge b-plan">Planned</span></div><div class="event-detail">2-20-16 Yoyogi, Shibuya-ku · No reservations — arrive early for ticket · 03-6276-7816</div></div></div>
-    <div class="event"><div class="event-time">6:00 PM</div><div class="event-body"><div class="event-name">Sushi Onikai — with Johnny & Jackie <span class="badge b-conf">Confirmed</span></div><div class="event-detail">2-18-11 Kamimeguro, Meguro City 2F · $70/person</div></div></div>
+    <div class="event"><div class="event-time">~11:00 AM</div><div class="event-body"><div class="event-name">Udon Shin <span class="badge b-plan">Planned</span></div><div class="event-detail"><a href="https://www.google.com/maps/search/?api=1&query=2-20-16+Yoyogi+Shibuya-ku+Tokyo">2-20-16 Yoyogi, Shibuya-ku</a> · No reservations — arrive early for ticket · <a href="tel:+81362767816" class="phone">03-6276-7816</a></div></div></div>
+    <div class="event"><div class="event-time">6:00 PM</div><div class="event-body"><div class="event-name">Sushi Onikai — with Johnny & Jackie <span class="badge b-conf">Confirmed</span></div><div class="event-detail"><a href="https://www.google.com/maps/search/?api=1&query=2-18-11+Kamimeguro+Meguro+Tokyo">2-18-11 Kamimeguro, Meguro City 2F</a> · $70/person</div></div></div>
   </div>
 </div>
 
@@ -187,7 +190,7 @@ html, body {
   </div>
   <div class="events">
     <div class="event"><div class="event-time">10:30 AM</div><div class="event-body"><div class="event-name">Kappabashi · Ginza · Daikanyama <span class="badge b-plan">Planned</span></div><div class="event-detail">Kitchen Town · upscale shopping · boutiques & Tsutaya Books</div></div></div>
-    <div class="event"><div class="event-time">5:30 PM</div><div class="event-body"><div class="event-name">Savoy Pizza <span class="badge b-conf">Confirmed</span></div><div class="event-detail">2-20-12 Azabu Juban, Minato-ku · legendary Tokyo pizza</div></div></div>
+    <div class="event"><div class="event-time">5:30 PM</div><div class="event-body"><div class="event-name">Savoy Pizza <span class="badge b-conf">Confirmed</span></div><div class="event-detail"><a href="https://www.google.com/maps/search/?api=1&query=2-20-12+Azabu+Juban+Minato-ku+Tokyo">2-20-12 Azabu Juban, Minato-ku</a> · legendary Tokyo pizza</div></div></div>
     <div class="event"><div class="event-time">Note</div><div class="event-body"><div class="event-name">Mom & Dad depart LAX</div><div class="event-detail">SQ 11 · 2:20 PM · arriving NRT Apr 15 at 5:50 PM</div></div></div>
   </div>
 </div>
@@ -213,7 +216,7 @@ html, body {
   </div>
   <div class="events">
     <div class="event"><div class="event-time">Late AM</div><div class="event-body"><div class="event-name">Kuramae neighborhood <span class="badge b-plan">Planned</span></div><div class="event-detail">Craft coffee · artisan workshops · indie boutiques under the elevated railway</div></div></div>
-    <div class="event"><div class="event-time">4:00 PM</div><div class="event-body"><div class="event-name">Check-in BISK PARK Shirokane Takanawa <span class="badge b-conf">Confirmed</span></div><div class="event-detail">1-18-2 Takanawa, Minato-ku · Key box: 1501 · Host: +81-90-4831-4704</div></div></div>
+    <div class="event"><div class="event-time">4:00 PM</div><div class="event-body"><div class="event-name">Check-in BISK PARK Shirokane Takanawa <span class="badge b-conf">Confirmed</span></div><div class="event-detail"><a href="https://www.google.com/maps/search/?api=1&query=1-18-2+Takanawa+Minato-ku+Tokyo">1-18-2 Takanawa, Minato-ku</a> · Key box: 1501 · Host: <a href="tel:+819048314704" class="phone">+81-90-4831-4704</a></div></div></div>
     <div class="event"><div class="event-time">5:00 PM</div><div class="event-body"><div class="event-name">Early dinner with Bella <span class="badge b-plan">Planned</span></div><div class="event-detail">Before family arrives</div></div></div>
     <div class="event"><div class="event-time">5:50 PM</div><div class="event-body"><div class="event-name">Mom & Dad arrive NRT <span class="badge b-conf">Confirmed</span></div><div class="event-detail">SQ 11 from LAX · Narita Express to Tokyo ~90 min, ~$20</div></div></div>
     <div class="event"><div class="event-time">Evening</div><div class="event-body"><div class="event-name">Omoide Yokocho (Memory Lane) <span class="badge b-plan">Planned</span></div><div class="event-detail">WWII-era yakitori alley · Shinjuku · counter seats, skewers, cold beer</div></div></div>
@@ -236,7 +239,7 @@ html, body {
   <div class="events">
     <div class="event"><div class="event-time">All Day</div><div class="event-body"><div class="event-name">Free Day · Explore Tokyo <span class="badge b-plan">Planned</span></div><div class="event-detail">First full day all 6 together · open morning and afternoon</div></div></div>
     <div class="event"><div class="event-time">2:30 PM</div><div class="event-body"><div class="event-name">Ginza · Daikanyama · Kappabashi <span class="badge b-plan">Planned</span></div><div class="event-detail">Upscale shopping · boutiques · Kitchen Town</div></div></div>
-    <div class="event"><div class="event-time">7:00 PM</div><div class="event-body"><div class="event-name">Nihonbashi HAJIME Hanare <span class="badge b-conf">Confirmed</span></div><div class="event-detail">Tonkatsu · All 6 · 1-11-15 Nihonbashimuro-machi, Chuo-ku · Conf: #7KTMEL</div></div></div>
+    <div class="event"><div class="event-time">7:00 PM</div><div class="event-body"><div class="event-name">Nihonbashi HAJIME Hanare <span class="badge b-conf">Confirmed</span></div><div class="event-detail">Tonkatsu · All 6 · <a href="https://www.google.com/maps/search/?api=1&query=1-11-15+Nihonbashimuro-machi+Chuo-ku+Tokyo">1-11-15 Nihonbashimuro-machi, Chuo-ku</a> · Conf: #7KTMEL</div></div></div>
   </div>
 </div>
 
@@ -256,7 +259,7 @@ html, body {
     <div class="event"><div class="event-time">8:30 AM</div><div class="event-body"><div class="event-name">Sumo Stable Practice — Jake, Adam & Dad <span class="badge b-conf">Confirmed</span></div><div class="event-detail">Tatsunami Stable, Taito Ward · JTB #010420000021386 · exact address in JTB email</div></div></div>
     <div class="event"><div class="event-time">8:30 AM</div><div class="event-body"><div class="event-name">Yanaka neighborhood — Bella, Mom & Ali <span class="badge b-plan">Planned</span></div><div class="event-detail">Stroll while the guys watch sumo</div></div></div>
     <div class="event"><div class="event-time">11:00 AM</div><div class="event-body"><div class="event-name">Everyone meets at Senso-ji Temple <span class="badge b-plan">Planned</span></div><div class="event-detail">Asakusa · Tokyo's oldest temple (628 AD) · Kaminarimon Thunder Gate</div></div></div>
-    <div class="event"><div class="event-time">7:30 PM</div><div class="event-body"><div class="event-name">Sushi Yuu Omakase <span class="badge b-conf">Confirmed</span></div><div class="event-detail">All 6 · Private room · $144/person · 1-4-15 Nishi-Azabu · Res: #8616</div></div></div>
+    <div class="event"><div class="event-time">7:30 PM</div><div class="event-body"><div class="event-name">Sushi Yuu Omakase <span class="badge b-conf">Confirmed</span></div><div class="event-detail">All 6 · Private room · $144/person · <a href="https://www.google.com/maps/search/?api=1&query=1-4-15+Nishi-Azabu+Minato-ku+Tokyo">1-4-15 Nishi-Azabu</a> · Res: #8616</div></div></div>
   </div>
 </div>
 
@@ -273,7 +276,7 @@ html, body {
     <div class="day-chevron">›</div>
   </div>
   <div class="events">
-    <div class="event"><div class="event-time">9:30 AM</div><div class="event-body"><div class="event-name">teamLab Borderless <span class="badge b-conf">Confirmed</span></div><div class="event-detail">Azabudai Hills · Kamiyacho Station Exit 5 · Conf: AHRTNHLWLWPT-0002 · 6 adults</div></div></div>
+    <div class="event"><div class="event-time">9:30 AM</div><div class="event-body"><div class="event-name">teamLab Borderless <span class="badge b-conf">Confirmed</span></div><div class="event-detail"><a href="https://www.google.com/maps/search/?api=1&query=teamLab+Borderless+Azabudai+Hills+Tokyo">Azabudai Hills · Kamiyacho Station Exit 5</a> · Conf: AHRTNHLWLWPT-0002 · 6 adults</div></div></div>
     <div class="event"><div class="event-time">Afternoon</div><div class="event-body"><div class="event-name">Shinjuku · Shibuya · Harajuku <span class="badge b-plan">Planned</span></div><div class="event-detail">Shopping and exploring</div></div></div>
     <div class="event"><div class="event-time">7:00 PM</div><div class="event-body"><div class="event-name">Group Dinner · Memory Lane <span class="badge b-plan">Planned</span></div><div class="event-detail">Omoide Yokocho yakitori stalls or nearby izakaya</div></div></div>
     <div class="event"><div class="event-time">Late Night</div><div class="event-body"><div class="event-name">Kabukicho <span class="badge b-plan">Planned</span></div><div class="event-detail">Neon-lit entertainment district · bars, arcades, Golden Gai</div></div></div>
@@ -323,8 +326,8 @@ html, body {
     <div class="event"><div class="event-time">11:00 AM</div><div class="event-body"><div class="event-name">Odakyu Romancecar — Shinjuku → Hakone-Yumoto <span class="badge b-conf">Confirmed</span></div><div class="event-detail">Hakone 5 (EXE10) · Carriage 4 · Seats 8D/C, 9D/C, 10D/C · Right side = Mt. Fuji views · Booking: #00025</div></div></div>
     <div class="event"><div class="event-time">12:25 PM</div><div class="event-body"><div class="event-name">Arrive Hakone-Yumoto · Eat lunch here <span class="badge b-urgent">Important</span></div><div class="event-detail">Nothing near ryokan · shuttle doesn't run until 14:00</div></div></div>
     <div class="event"><div class="event-time">~1:30 PM</div><div class="event-body"><div class="event-name">Hakone Tozan Railway → Kowakidani Station</div><div class="event-detail">~20 min · no reservation needed</div></div></div>
-    <div class="event"><div class="event-time">After 2 PM</div><div class="event-body"><div class="event-name">Call ryokan for shuttle <span class="badge b-urgent">Must call</span></div><div class="event-detail">+81-460-87-0010 · free shuttle · ~10 min wait · SHUTTLE RUNS 14:00–18:00 ONLY</div></div></div>
-    <div class="event"><div class="event-time">3:00 PM</div><div class="event-body"><div class="event-name">Check-in Hakone Gora Byakudan <span class="badge b-conf">Confirmed</span></div><div class="event-detail">Luxury ryokan · private open-air onsen · Booking: 5501776685</div></div></div>
+    <div class="event"><div class="event-time">After 2 PM</div><div class="event-body"><div class="event-name">Call ryokan for shuttle <span class="badge b-urgent">Must call</span></div><div class="event-detail"><a href="tel:+81460870010" class="phone">+81-460-87-0010</a> · free shuttle · ~10 min wait · SHUTTLE RUNS 14:00–18:00 ONLY</div></div></div>
+    <div class="event"><div class="event-time">3:00 PM</div><div class="event-body"><div class="event-name">Check-in Hakone Gora Byakudan <span class="badge b-conf">Confirmed</span></div><div class="event-detail"><a href="https://www.google.com/maps/search/?api=1&query=1297-5+Nino-Hira+Hakone-machi+Kanagawa">1297-5 Nino-Hira, Hakone-machi</a> · Booking: 5501776685</div></div></div>
     <div class="event"><div class="event-time">7:00 PM</div><div class="event-body"><div class="event-name">Kaiseki Dinner <span class="badge b-conf">Confirmed</span></div><div class="event-detail">Included in room rate · multi-course · seafood throughout</div></div></div>
   </div>
 </div>
@@ -344,7 +347,7 @@ html, body {
   <div class="events">
     <div class="event"><div class="event-time">Morning</div><div class="event-body"><div class="event-name">Morning Onsen · Lake Ashi (Optional) <span class="badge b-plan">Planned</span></div><div class="event-detail">Final soak · optional pirate ship cruise on Lake Ashi with Mt. Fuji views</div></div></div>
     <div class="event"><div class="event-time">~12:30 PM</div><div class="event-body"><div class="event-name">Shinkansen Odawara → Kyoto <span class="badge b-urgent">Book via SmartEX</span></div><div class="event-detail">~2.5 hrs · 200+ mph · book via SmartEX Overseas app</div></div></div>
-    <div class="event"><div class="event-time">3:00 PM</div><div class="event-body"><div class="event-name">Check-in Cross Hotel Kyoto <span class="badge b-conf">Confirmed</span></div><div class="event-detail">71-1 Daikoku-cho, Nakagyo-ku · 3 rooms · Itinerary: 73352407055052</div></div></div>
+    <div class="event"><div class="event-time">3:00 PM</div><div class="event-body"><div class="event-name">Check-in Cross Hotel Kyoto <span class="badge b-conf">Confirmed</span></div><div class="event-detail"><a href="https://www.google.com/maps/search/?api=1&query=71-1+Daikoku-cho+Kawaramachi+Nakagyo-ku+Kyoto">71-1 Daikoku-cho, Nakagyo-ku</a> · 3 rooms · Itinerary: 73352407055052 · <a href="tel:+81752318831" class="phone">075-231-8831</a></div></div></div>
     <div class="event"><div class="event-time">4:30 PM</div><div class="event-body"><div class="event-name">Nishiki Market <span class="badge b-plan">Planned</span></div><div class="event-detail">Kyoto's Kitchen · 400-year-old covered market · 100+ stalls</div></div></div>
     <div class="event"><div class="event-time">7:00 PM</div><div class="event-body"><div class="event-name">Okonomiyaki Dinner <span class="badge b-plan">Planned</span></div><div class="event-detail">DIY savory pancakes at the table · walkable from hotel</div></div></div>
   </div>
@@ -371,9 +374,9 @@ html, body {
   </div>
   <div class="events">
     <div class="event"><div class="event-time">8:30 AM</div><div class="event-body"><div class="event-name">JR Sagano Line → Kameoka <span class="badge b-plan">Planned</span></div><div class="event-detail">Kyoto Station → Kameoka · ~25 min · no reservation · tap Suica</div></div></div>
-    <div class="event"><div class="event-time">10:00 AM</div><div class="event-body"><div class="event-name">Hozugawa River Boat Ride <span class="badge b-conf">Confirmed</span></div><div class="event-detail">90 min through forested gorges → Arashiyama · Shimonakajima-2, Hozucho, Kameoka</div></div></div>
+    <div class="event"><div class="event-time">10:00 AM</div><div class="event-body"><div class="event-name">Hozugawa River Boat Ride <span class="badge b-conf">Confirmed</span></div><div class="event-detail">90 min through forested gorges → Arashiyama · <a href="https://www.google.com/maps/search/?api=1&query=Shimonakajima+Hozucho+Kameoka+Kyoto">Shimonakajima-2, Hozucho, Kameoka</a></div></div></div>
     <div class="event"><div class="event-time">Afternoon</div><div class="event-body"><div class="event-name">Arashiyama Bamboo Grove · Tenryu-ji <span class="badge b-plan">Planned</span></div><div class="event-detail">Lunch in Arashiyama after · towering bamboo forest · temple and gardens</div></div></div>
-    <div class="event"><div class="event-time">7:00 PM</div><div class="event-body"><div class="event-name">Wagyu Ryotei Bungo <span class="badge b-conf">Confirmed</span></div><div class="event-detail">A5 Wagyu · private room · $160/person · 56 Motoyoshicho, Higashiyama-ku · Gion-Shijo Station</div></div></div>
+    <div class="event"><div class="event-time">7:00 PM</div><div class="event-body"><div class="event-name">Wagyu Ryotei Bungo <span class="badge b-conf">Confirmed</span></div><div class="event-detail">A5 Wagyu · private room · $160/person · <a href="https://www.google.com/maps/search/?api=1&query=56+Motoyoshicho+Higashiyama-ku+Kyoto">56 Motoyoshicho, Higashiyama-ku</a> · Gion-Shijo Station</div></div></div>
   </div>
 </div>
 
@@ -414,7 +417,7 @@ html, body {
     <div class="event"><div class="event-time">~9:00 AM</div><div class="event-body"><div class="event-name">Shinkansen Kyoto → Osaka <span class="badge b-plan">Planned</span></div><div class="event-detail">15 min · buy day-of at Kyoto Station</div></div></div>
     <div class="event"><div class="event-time">11:30 AM</div><div class="event-body"><div class="event-name">Osaka Food Tour <span class="badge b-conf">Confirmed</span></div><div class="event-detail">Dotonbori & Shinsekai · takoyaki, kushikatsu · All 6 · Booking: WAT598681</div></div></div>
     <div class="event"><div class="event-time">Afternoon</div><div class="event-body"><div class="event-name">Explore Dotonbori <span class="badge b-plan">Planned</span></div><div class="event-detail">Glico Man sign · street food · shopping along the canal</div></div></div>
-    <div class="event"><div class="event-time">6:00 PM</div><div class="event-body"><div class="event-name">Baseball · Orix vs. Nippon-Ham <span class="badge b-conf">Confirmed</span></div><div class="event-detail">Kyocera Dome · 6 tickets · Lower Outfield Reserved · StubHub #639163683</div></div></div>
+    <div class="event"><div class="event-time">6:00 PM</div><div class="event-body"><div class="event-name">Baseball · Orix vs. Nippon-Ham <span class="badge b-conf">Confirmed</span></div><div class="event-detail"><a href="https://www.google.com/maps/search/?api=1&query=Kyocera+Dome+Osaka+Nishi+Ward">Kyocera Dome</a> · 6 tickets · Lower Outfield Reserved · StubHub #639163683</div></div></div>
     <div class="event"><div class="event-time">After game</div><div class="event-body"><div class="event-name">Return to Kyoto</div><div class="event-detail">Shinkansen back · ~15 min</div></div></div>
   </div>
 </div>
@@ -441,7 +444,7 @@ html, body {
   <div class="events">
     <div class="event"><div class="event-time">11:00 AM</div><div class="event-body"><div class="event-name">Check-out Cross Hotel Kyoto</div><div class="event-detail">Head to Kyoto Station</div></div></div>
     <div class="event"><div class="event-time">~12:00 PM</div><div class="event-body"><div class="event-name">Shinkansen Kyoto → Tokyo <span class="badge b-urgent">Book NOW</span></div><div class="event-detail">Golden Week weekend — will sell out · SmartEX Overseas app · ~$95/person × 6</div></div></div>
-    <div class="event"><div class="event-time">3:00 PM</div><div class="event-body"><div class="event-name">Check-in Grand Hyatt Tokyo · Roppongi <span class="badge b-conf">Confirmed</span></div><div class="event-detail">6-10-3 Roppongi, Minato-ku · Conf: 2417381230</div></div></div>
+    <div class="event"><div class="event-time">3:00 PM</div><div class="event-body"><div class="event-name">Check-in Grand Hyatt Tokyo · Roppongi <span class="badge b-conf">Confirmed</span></div><div class="event-detail"><a href="https://www.google.com/maps/search/?api=1&query=6-10-3+Roppongi+Minato-ku+Tokyo">6-10-3 Roppongi, Minato-ku</a> · Conf: 2417381230 · <a href="tel:+81343331234" class="phone">+81-3-4333-1234</a></div></div></div>
     <div class="event"><div class="event-time">7:30 PM</div><div class="event-body"><div class="event-name">Dinner with Matthew & Gabby <span class="badge b-plan">Planned</span></div><div class="event-detail">Roppongi · steps from the Grand Hyatt</div></div></div>
   </div>
 </div>
